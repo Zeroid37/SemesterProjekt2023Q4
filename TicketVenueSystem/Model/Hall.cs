@@ -12,7 +12,7 @@ namespace TicketVenueSystem.Model
         public List<Seat> seats { get; set; }
 
         public Hall(int hallNumber)
-        { 
+        {
             this.hallNumber = hallNumber;
             seats = new List<Seat>();
         }
