@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TicketVenueSystem.DB
 {
-    internal class Placeholder
+    internal interface HallDAO
     {
     }
 }
