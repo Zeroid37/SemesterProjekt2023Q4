@@ -15,7 +15,7 @@ namespace TicketVenueSystem.DB
             throw new NotImplementedException();
         }
 
-        public User createObject(SqlConnection con, string email)
+        public User getUserByEmail(SqlConnection con, string email)
         {
             throw new NotImplementedException();
         }
