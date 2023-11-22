@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using TicketVenueSystem.Business;
+using TicketVenueSystem.DB;
 using TicketVenueSystem.Model;
 
 namespace TicketVenueSystem.UI
@@ -93,11 +95,24 @@ namespace TicketVenueSystem.UI
                 DateTime endDateTicket = DateTime.ParseExact(endDateInput, "dd/MM/yyyy", null);
 
                 tl.createTicket(chosenSeat, "69", startDateTicket, endDateTicket, user, venueEvent);
+
+
+                DBConnect DBC = DBConnect.getInstance();
+                SqlConnection con = DBC.getConnection();
+
+                HallDB hdb = new HallDB();
+                SeatDB seatDB = new SeatDB();
+
+                Hall test = null;
+                Seat testSeat = null;
+                test = hdb.getHallFromHallNo(con, 1);
+                testSeat = seatDB.getSeatFromSeatNo(con, test.hallNumber);
+
+                Console.WriteLine(testSeat.seatNumber);
+
+
+
             }
-
-            //Create Ticket
-
-
         }
     }
 }

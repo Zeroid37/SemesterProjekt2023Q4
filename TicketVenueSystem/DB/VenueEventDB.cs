@@ -8,8 +8,16 @@ using TicketVenueSystem.Model;
 
 namespace TicketVenueSystem.DB
 {
-	internal class VenueEventDB : VenueEventDAO
-	{
+    internal class VenueEventDB : VenueEventDAO
+    {
+        public bool addVenueEventToDB(SqlConnection con, string id)
+        {
+            throw new NotImplementedException();
+        }
 
-	}
+        public VenueEvent getVenueEventById(SqlConnection con, string id)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

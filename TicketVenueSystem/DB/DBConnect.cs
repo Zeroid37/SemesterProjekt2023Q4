@@ -10,7 +10,7 @@ namespace TicketVenueSystem.DB
 {
     internal class DBConnect
     {
-        private static String dbName = "cSharpDatabase";
+        private static String dbName = "ticketVenue";
         private static String serverAddress = "127.0.0.1";
         private static int serverPort = 1433;
         private static String userName = "sa";
