@@ -8,5 +8,7 @@ namespace TicketVenueSystem.DB
 {
     internal interface VenueEventDAO
     {
+        public VenueEvent getVenueEventById(SqlConnection con, String id);
+        public bool addVenueEventToDB(SqlConnection con, String id);
     }
 }
