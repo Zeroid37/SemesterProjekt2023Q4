@@ -15,6 +15,8 @@ namespace TicketVenueSystem.Model
         public User user { get; set; }
         public VenueEvent venueEvent { get; set; }
 
+
+        public Ticket() { }
         public Ticket (Seat seat, string id, DateTime startDate, DateTime endDate, User user, VenueEvent venueEvent)
         {
             this.seat = seat;

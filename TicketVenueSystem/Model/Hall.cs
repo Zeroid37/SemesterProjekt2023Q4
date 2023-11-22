@@ -11,6 +11,8 @@ namespace TicketVenueSystem.Model
         public int hallNumber { get; set; }
         public List<Seat> seats { get; set; }
 
+
+        public Hall() { }
         public Hall(int hallNumber)
         {
             this.hallNumber = hallNumber;

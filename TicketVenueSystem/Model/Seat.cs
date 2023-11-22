@@ -11,6 +11,11 @@ namespace TicketVenueSystem.Model
         public int seatNumber { get; set; }
         public Boolean isInOrder { get; set; }
 
+
+        public Seat()
+        {
+            this.isInOrder = true;
+        }
         public Seat(int seatNumber, Boolean isInOrder)
         { 
             this.seatNumber = seatNumber;

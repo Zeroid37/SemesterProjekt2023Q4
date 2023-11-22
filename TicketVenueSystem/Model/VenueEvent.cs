@@ -14,6 +14,9 @@ namespace TicketVenueSystem.Model
         public DateTime endDate { get; set; }
         public Hall hall { get; set; }
 
+
+        public VenueEvent() { }
+
         public VenueEvent(double price, string eventName, DateTime startDate, DateTime endDate, Hall hall)
         {
             this.price = price;

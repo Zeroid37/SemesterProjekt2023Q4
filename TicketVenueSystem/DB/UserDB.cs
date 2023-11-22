@@ -10,12 +10,12 @@ namespace TicketVenueSystem.DB
 {
     internal class UserDB : UserDAO
     {
-        public bool addUserToDB(SqlConnection con, User user)
+        public bool addUserToDB(User user)
         {
             throw new NotImplementedException();
         }
 
-        public User getUserByEmail(SqlConnection con, string email)
+        public User getUserByEmail(string email)
         {
             throw new NotImplementedException();
         }

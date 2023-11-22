@@ -24,7 +24,6 @@ namespace TicketVenueSystem.DB
                            $"user = {userName};" +
                            $"password = {password}";
 
-
         private DBConnect()
         {
             con = new SqlConnection(conString);
@@ -59,6 +58,10 @@ namespace TicketVenueSystem.DB
 
         public SqlConnection getConnection()
         {
+            if (!tryConnect())
+            {
+                con.Open();
+            }
             return con;
         }
     }

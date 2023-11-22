@@ -10,12 +10,16 @@ namespace TicketVenueSystem.DB
 {
     internal class SeatDB : SeatDAO
     {
-        public Seat getSeatFromSeatNo(SqlConnection con, int seatNo)
+        public Seat getSeatFromSeatNo(int seatNo)
         {
+
+            DBConnect DBC = DBConnect.getInstance();
+            SqlConnection con = DBC.getConnection();
+
             SqlDataReader reader = null;
             int seatNumber = 0;
             Boolean isInOrder = false;
-            Seat seat = null;
+            Seat seat = new Seat();
             using (con)
             {
                 using (SqlCommand cmd = con.CreateCommand())
@@ -35,13 +39,18 @@ namespace TicketVenueSystem.DB
                 }
             }
         }
-        public List<Seat> getAllSeatsFromHallNo(SqlConnection con, int hallNo)
+        public List<Seat> getAllSeatsFromHallNo(int hallNo)
         {
+
+            DBConnect DBC = DBConnect.getInstance();
+            SqlConnection con = DBC.getConnection();
+
+
             List<Seat> seats = new List<Seat>();
             SqlDataReader reader = null;
             int seatNumber = 0;
             Boolean isInOrder = false;
-            Seat seat = null;
+            Seat seat = new Seat();
             using (con)
             {
                 using (SqlCommand cmd = con.CreateCommand())

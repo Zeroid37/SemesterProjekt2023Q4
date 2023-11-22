@@ -15,6 +15,32 @@ namespace TicketVenueSystem.UI
     {
         static void Main(string[] args)
         {
+            HallDB hdb = new HallDB();
+            SeatDB sdb = new SeatDB();
+            List<Seat> seats;
+
+            Hall hall = hdb.getHallFromHallNo(1);
+            Console.WriteLine(hall.hallNumber);
+
+            Seat seat = sdb.getSeatFromSeatNo(hall.hallNumber);
+            Console.WriteLine(seat.seatNumber);
+
+
+
+            //seats = sdb.getAllSeatsFromHallNo(con, hall.hallNumber);
+
+            //foreach (Seat seat in seats)
+            //{
+            //    Console.WriteLine(seat);
+            //}
+
+
+
+
+        }
+
+        private void testTicketWithDummy()
+        {
             TicketLogic tl = new TicketLogic();
             //Create User
             string id = "69";
@@ -49,7 +75,7 @@ namespace TicketVenueSystem.UI
                 Console.WriteLine("Welcome to Ticket Vendor 3000");
                 Console.WriteLine("Please choose an event from the available ones:");
                 Console.WriteLine("1. " + venueEvent.eventName);
-                string input  = Console.ReadLine();
+                string input = Console.ReadLine();
                 VenueEvent chosenEvent = venueEvent;
                 Console.WriteLine("Event information:");
                 Console.WriteLine("Name: " + chosenEvent.eventName);
@@ -71,9 +97,9 @@ namespace TicketVenueSystem.UI
 
                 Boolean found = false;
                 int index = 0;
-                while (!found && index<chosenEvent.hall.seats.Count) 
-                { 
-                    if(seatNumberInt == chosenEvent.hall.seats[index].seatNumber)
+                while (!found && index < chosenEvent.hall.seats.Count)
+                {
+                    if (seatNumberInt == chosenEvent.hall.seats[index].seatNumber)
                     {
                         chosenSeat = chosenEvent.hall.seats[index];
                         found = true;
@@ -95,23 +121,6 @@ namespace TicketVenueSystem.UI
                 DateTime endDateTicket = DateTime.ParseExact(endDateInput, "dd/MM/yyyy", null);
 
                 tl.createTicket(chosenSeat, "69", startDateTicket, endDateTicket, user, venueEvent);
-
-
-                DBConnect DBC = DBConnect.getInstance();
-                SqlConnection con = DBC.getConnection();
-
-                HallDB hdb = new HallDB();
-                SeatDB seatDB = new SeatDB();
-
-                Hall test = null;
-                Seat testSeat = null;
-                test = hdb.getHallFromHallNo(con, 1);
-                testSeat = seatDB.getSeatFromSeatNo(con, test.hallNumber);
-
-                Console.WriteLine(testSeat.seatNumber);
-
-
-
             }
         }
     }

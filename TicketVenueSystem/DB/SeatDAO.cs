@@ -10,7 +10,7 @@ namespace TicketVenueSystem.DB
 {
     internal interface SeatDAO
     {
-        public Seat getSeatFromSeatNo(SqlConnection con, int seatNo);
-        public List<Seat> getAllSeatsFromHallNo(SqlConnection con, int hallNo);
+        public Seat getSeatFromSeatNo(int seatNo);
+        public List<Seat> getAllSeatsFromHallNo(int hallNo);
     }
 }

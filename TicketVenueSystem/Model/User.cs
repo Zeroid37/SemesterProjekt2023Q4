@@ -15,6 +15,9 @@ namespace TicketVenueSystem.Model
         public string phoneNo { get; set; }
         public DateTime dateOfBirth { get; set; }
 
+
+        public User() { }
+
         public User(string id, string firstName, string lastName, string email, string phoneNo, DateTime dateOfBirth)
         {
             this.id = id;

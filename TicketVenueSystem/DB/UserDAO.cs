@@ -10,7 +10,7 @@ namespace TicketVenueSystem.DB
 {
     internal interface UserDAO
     {
-        public Boolean addUserToDB(SqlConnection con, User user);
-        public User getUserByEmail(SqlConnection con, String email);
+        public Boolean addUserToDB(User user);
+        public User getUserByEmail(String email);
     }
 }
