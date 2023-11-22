@@ -8,6 +8,7 @@ namespace TicketVenueSystem.Model
 {
     public class VenueEvent
     {
+        public string id { get; set; }
         public double price { get; set; }
         public string eventName { get; set; }
         public DateTime startDate { get; set; }
@@ -17,8 +18,9 @@ namespace TicketVenueSystem.Model
 
         public VenueEvent() { }
 
-        public VenueEvent(double price, string eventName, DateTime startDate, DateTime endDate, Hall hall)
+        public VenueEvent(string id, double price, string eventName, DateTime startDate, DateTime endDate, Hall hall)
         {
+            this.id = id;
             this.price = price;
             this.eventName = eventName;
             this.startDate = startDate;

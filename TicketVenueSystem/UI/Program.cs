@@ -63,11 +63,12 @@ namespace TicketVenueSystem.UI
 
 
             //Create VenueEvent
+            string eventId = "-1";
             double price = 199.95;
             string eventName = "Koncert";
             DateTime startDate = new DateTime(2024, 10, 5);
             DateTime endDate = startDate.AddDays(2);
-            VenueEvent venueEvent = new VenueEvent(price, eventName, startDate, endDate, hallOne);
+            VenueEvent venueEvent = new VenueEvent(eventId, price, eventName, startDate, endDate, hallOne);
 
 
             while (true)
