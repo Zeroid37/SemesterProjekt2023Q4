@@ -10,7 +10,7 @@ namespace TicketVenueSystem.DB
 {
     internal interface HallDAO
     {
-        public Hall getHallFromHallNo(int hallNo);
-        public List<Hall> getAllHallsFromHallNo(int hallNo);
+        public Hall getHallFromHallNo(String hallNo);
+        public List<Hall> getAllHallsFromHallNo(String hallNo);
     }
 }

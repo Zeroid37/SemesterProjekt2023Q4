@@ -17,22 +17,23 @@ namespace TicketVenueSystem.UI
         {
             HallDB hdb = new HallDB();
             SeatDB sdb = new SeatDB();
-            List<Seat> seats;
-
-            Hall hall = hdb.getHallFromHallNo(1);
-            Console.WriteLine(hall.hallNumber);
-
-            Seat seat = sdb.getSeatFromSeatNo(hall.hallNumber);
-            Console.WriteLine(seat.seatNumber);
+            VenueEventDB vdb = new VenueEventDB();
 
 
+            Hall hall = new Hall("1");
 
-            //seats = sdb.getAllSeatsFromHallNo(con, hall.hallNumber);
+            //VenueEvent venueEvent = new VenueEvent("-1", 200.00, "Hej", DateTime.Now, DateTime.Now, hall);
 
-            //foreach (Seat seat in seats)
-            //{
-            //    Console.WriteLine(seat);
-            //}
+            //vdb.addVenueEventToDB(venueEvent);
+
+
+            VenueEvent venue = vdb.getVenueEventById("-1");
+
+            Console.WriteLine(venue.eventName);
+
+
+
+
 
 
 
@@ -49,26 +50,26 @@ namespace TicketVenueSystem.UI
             string email = "Smajo@mail";
             string phoneNo = "1234567890";
             DateTime dateOfBirth = new DateTime(2000, 1, 16);
-            User user = new User(id, firstName, lastName, email, phoneNo, dateOfBirth);
+            User user = new User(firstName, lastName, email, phoneNo, dateOfBirth);
 
 
             //Create Hall & Seats
-            int hallNumber = 1;
+            string hallNumber = "1";
             Hall hallOne = new Hall(hallNumber);
-            hallOne.addSeat(new Seat(1, true));
-            hallOne.addSeat(new Seat(2, true));
-            hallOne.addSeat(new Seat(3, true));
-            hallOne.addSeat(new Seat(4, true));
+            hallOne.addSeat(new Seat("1", true));
+            hallOne.addSeat(new Seat("2", true));
+            hallOne.addSeat(new Seat("3", true));
+            hallOne.addSeat(new Seat("4", true));
 
 
 
             //Create VenueEvent
-            string eventId = "-1";
+            String ticket_ID = "1";
             double price = 199.95;
             string eventName = "Koncert";
             DateTime startDate = new DateTime(2024, 10, 5);
             DateTime endDate = startDate.AddDays(2);
-            VenueEvent venueEvent = new VenueEvent(eventId, price, eventName, startDate, endDate, hallOne);
+            VenueEvent venueEvent = new VenueEvent(ticket_ID, price, eventName, startDate, endDate, hallOne);
 
 
             while (true)
@@ -100,7 +101,7 @@ namespace TicketVenueSystem.UI
                 int index = 0;
                 while (!found && index < chosenEvent.hall.seats.Count)
                 {
-                    if (seatNumberInt == chosenEvent.hall.seats[index].seatNumber)
+                    if (seatNumberInt.Equals(chosenEvent.hall.seats[index].seatNumber))
                     {
                         chosenSeat = chosenEvent.hall.seats[index];
                         found = true;

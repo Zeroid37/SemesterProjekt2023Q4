@@ -8,12 +8,12 @@ namespace TicketVenueSystem.Model
 {
     public class Hall
     {
-        public int hallNumber { get; set; }
+        public string hallNumber { get; set; }
         public List<Seat> seats { get; set; }
 
 
         public Hall() { }
-        public Hall(int hallNumber)
+        public Hall(string hallNumber)
         {
             this.hallNumber = hallNumber;
             seats = new List<Seat>();

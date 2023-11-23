@@ -10,12 +10,12 @@ namespace TicketVenueSystem.DB
 {
     internal class HallDB : HallDAO
     {
-        public Hall getHallFromHallNo( int hallNo)
+        public Hall getHallFromHallNo(String hallNo)
         {
             DBConnect DBC = DBConnect.getInstance();
             SqlConnection con = DBC.getConnection();
             SqlDataReader reader = null;
-            int hallNumber = 0;
+            string hallNumber = "";
             Hall hall = new Hall();
             using (con)
             {
@@ -26,7 +26,7 @@ namespace TicketVenueSystem.DB
                     while (reader.Read())
                     {
 
-                        hallNumber = reader.GetInt32(reader.GetOrdinal("hallNumber"));
+                        hallNumber = reader.GetString(reader.GetOrdinal("hallNumber"));
 
                         hall.hallNumber = hallNumber;
                     }
@@ -35,14 +35,14 @@ namespace TicketVenueSystem.DB
             }
         }
 
-        public List<Hall> getAllHallsFromHallNo(int hallNo)
+        public List<Hall> getAllHallsFromHallNo(String hallNo)
         {
             DBConnect DBC = DBConnect.getInstance();
             SqlConnection con = DBC.getConnection();
 
             List<Hall> halls = new List<Hall>();
             SqlDataReader reader = null;
-            int hallNumber = 0;
+            string hallNumber = "";
             Hall hall = new Hall();
             using (con)
             {
@@ -52,7 +52,7 @@ namespace TicketVenueSystem.DB
                     reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        hallNumber = reader.GetInt32(reader.GetOrdinal("hallNumber"));
+                        hallNumber = reader.GetString(reader.GetOrdinal("hallNumber"));
 
                         hall.hallNumber = hallNumber;
                         halls.Add(hall);

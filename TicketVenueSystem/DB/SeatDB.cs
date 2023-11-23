@@ -17,7 +17,7 @@ namespace TicketVenueSystem.DB
             SqlConnection con = DBC.getConnection();
 
             SqlDataReader reader = null;
-            int seatNumber = 0;
+            String seatNumber = "";
             Boolean isInOrder = false;
             Seat seat = new Seat();
             using (con)
@@ -29,7 +29,7 @@ namespace TicketVenueSystem.DB
                     while (reader.Read()) 
                     {
                         
-                        seatNumber = reader.GetInt32(reader.GetOrdinal("seatNumber"));
+                        seatNumber = reader.GetString(reader.GetOrdinal("seatNumber"));
                         isInOrder = reader.GetBoolean(reader.GetOrdinal("isInOrder"));
 
                         seat.seatNumber = seatNumber;
@@ -48,7 +48,7 @@ namespace TicketVenueSystem.DB
 
             List<Seat> seats = new List<Seat>();
             SqlDataReader reader = null;
-            int seatNumber = 0;
+            String seatNumber = "";
             Boolean isInOrder = false;
             Seat seat = new Seat();
             using (con)
@@ -60,7 +60,7 @@ namespace TicketVenueSystem.DB
                     while (reader.Read())
                     {
 
-                        seatNumber = reader.GetInt32(reader.GetOrdinal("seatNumber"));
+                        seatNumber = reader.GetString(reader.GetOrdinal("seatNumber"));
                         isInOrder = reader.GetBoolean(reader.GetOrdinal("isInOrder"));
 
                         seat.seatNumber = seatNumber;
