@@ -6,24 +6,14 @@ using System.Threading.Tasks;
 
 namespace TicketVenueSystem.Model
 {
-    public class User
+    public class User : Person
     {
-        public string firstName { get; set; }
-        public string lastName { get; set; }
-        public string email { get; set; }
-        public string phoneNo { get; set; }
-        public DateTime dateOfBirth { get; set; }
+        public string userId { get; set; }
 
+        public User(string firstName, string lastName, Address address, string phoneNo, string email, string password, bool isAdmin, DateTime dateOfBirth) : base(firstName, lastName, address, phoneNo, email, password, isAdmin, dateOfBirth, "u") { }
 
-        public User() { }
-
-        public User(string firstName, string lastName, string email, string phoneNo, DateTime dateOfBirth)
-        {
-            this.firstName = firstName;
-            this.lastName = lastName;
-            this.email = email;
-            this.phoneNo = phoneNo;
-            this.dateOfBirth = dateOfBirth;
+        public User(string userId, string firstName, string lastName, Address address, string phoneNo, string email, string password, bool isAdmin, DateTime dateOfBirth) : base(firstName, lastName, address, phoneNo, email, password, isAdmin, dateOfBirth, "u") {
+            this.userId = userId;
         }
     }
 }
