@@ -10,7 +10,7 @@ namespace TicketVenueSystem.DB
 {
     internal class SeatDB : SeatDAO
     {
-        public Seat getSeatFromSeatNo(int seatNo)
+        public Seat getSeatFromSeatNo(String seatNo)
         {
 
             DBConnect DBC = DBConnect.getInstance();

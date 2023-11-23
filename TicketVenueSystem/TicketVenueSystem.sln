@@ -5,7 +5,9 @@ VisualStudioVersion = 17.7.34018.315
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketVenueSystem", "TicketVenueSystem.csproj", "{20900A42-314A-4C69-8E1B-310296EBD76C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "..\UnitTests\UnitTests.csproj", "{73E40124-D994-4B23-8CBF-FE6815455857}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "..\UnitTests\UnitTests.csproj", "{73E40124-D994-4B23-8CBF-FE6815455857}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketVenueSystemAPI", "..\TicketVenueSystemAPI\TicketVenueSystemAPI.csproj", "{27443A95-C47E-4F66-B740-54FF42D83222}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{73E40124-D994-4B23-8CBF-FE6815455857}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73E40124-D994-4B23-8CBF-FE6815455857}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73E40124-D994-4B23-8CBF-FE6815455857}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27443A95-C47E-4F66-B740-54FF42D83222}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27443A95-C47E-4F66-B740-54FF42D83222}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27443A95-C47E-4F66-B740-54FF42D83222}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27443A95-C47E-4F66-B740-54FF42D83222}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

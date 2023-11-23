@@ -33,11 +33,6 @@ namespace TicketVenueSystem.UI
 
 
 
-
-
-
-
-
         }
 
         private void testTicketWithDummy()
