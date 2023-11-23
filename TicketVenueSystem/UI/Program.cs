@@ -18,20 +18,26 @@ namespace TicketVenueSystem.UI
             HallDB hdb = new HallDB();
             SeatDB sdb = new SeatDB();
             VenueEventDB vdb = new VenueEventDB();
+            UserDB udb = new UserDB();
+
+            
 
 
-            Hall hall = new Hall("1");
+            Address adress = new Address("Hjesavej", "5", "9000", "Aalborg");
 
-            //VenueEvent venueEvent = new VenueEvent("-1", 200.00, "Hej", DateTime.Now, DateTime.Now, hall);
+            string id = "69";
+            string firstName = "Smajo";
+            string lastName = "Omanovic";
+            string email = "Smajo@mail";
+            string phoneNo = "1234567890";
+            DateTime dateOfBirth = new DateTime(2000, 1, 16);
+            string password = "password";
+            Boolean isAdmin = false;
+            //User user = new User(id, firstName, lastName, adress, phoneNo, email, password, isAdmin, dateOfBirth);
+            EventOrganizer e = new EventOrganizer(id, firstName, lastName, adress, phoneNo, email, password, isAdmin, dateOfBirth);
 
-            //vdb.addVenueEventToDB(venueEvent);
 
-
-            VenueEvent venue = vdb.getVenueEventById("-1");
-
-            Console.WriteLine(venue.eventName);
-
-
+            Console.WriteLine(udb.addEventOrganizerToDB(e));
 
         }
 
@@ -39,13 +45,17 @@ namespace TicketVenueSystem.UI
         {
             TicketLogic tl = new TicketLogic();
             //Create User
+            Address adress = new Address("Hjesavej", "5", "9000", "Aalborg");
+
             string id = "69";
             string firstName = "Smajo";
             string lastName = "Omanovic";
             string email = "Smajo@mail";
             string phoneNo = "1234567890";
             DateTime dateOfBirth = new DateTime(2000, 1, 16);
-            User user = new User(firstName, lastName, email, phoneNo, dateOfBirth);
+            string password = "password";
+            Boolean isAdmin = false;
+            User user = new User(firstName, lastName, adress, phoneNo, email, password, isAdmin, dateOfBirth);
 
 
             //Create Hall & Seats

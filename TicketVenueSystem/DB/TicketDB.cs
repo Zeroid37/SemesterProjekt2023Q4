@@ -63,11 +63,9 @@ namespace TicketVenueSystem.DB
                         ticket.seat = sdb.getSeatFromSeatNo(reader.GetString(reader.GetOrdinal("seatNumber_FK")));
                         ticket.venueEvent = vedb.getVenueEventById(reader.GetString(reader.GetOrdinal("venueEventID_FK")));
                         
-                        ticket.user = udb.getUserByUserID(reader.GetString(reader.GetOrdinal("userID_FK")));
-                       
+                        //ticket.user = udb.getUserByUserID(reader.GetString(reader.GetOrdinal("userID_FK")));                       
                             
  
-
                     }
                 }
             }

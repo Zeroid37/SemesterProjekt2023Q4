@@ -15,18 +15,21 @@ namespace TicketVenueSystem.DB
 
             int insertedRowsNoPerson = 0;
             int insertedRowsNoUser = 0;
-            string queryStringPerson = "insert into Person(firstName, lastName, addressId_FK, phone, email, password, isAdmin, type)" +
-                                 "values(@FIRSTNAME, @LASTNAME, @ADDRESSID_FK, @PHONE, @EMAIL, @PASSWORD, @ISADMIN, @TYPE)";
-            string queryStringUser = "insert into User(userId, email_fk) values(@USERID, @EMAIL_FK)";
+            string queryStringPerson = "insert into Person(firstName, lastName, addressId_FK, phone, dateOfBirth, email, password, isAdmin, type)" +
+                                 "values(@FIRSTNAME, @LASTNAME, @ADDRESSID_FK, @PHONE, @DATEOFBIRTH, @EMAIL, @PASSWORD, @ISADMIN, @TYPE)";
+            string queryStringUser = "insert into Users(userId, email_fk) values(@USERID, @EMAIL_FK)";
 
             using (con) {
                 using (SqlCommand cmd = new SqlCommand(queryStringPerson, con)) {
                     int addressId = addAddressToDB(user.address);
 
+                    Console.WriteLine(addressId);
+
                     cmd.Parameters.AddWithValue("FIRSTNAME", user.firstName);
                     cmd.Parameters.AddWithValue("LASTNAME", user.lastName);
                     cmd.Parameters.AddWithValue("ADDRESSID_FK", addressId);
                     cmd.Parameters.AddWithValue("PHONE", user.phoneNo);
+                    cmd.Parameters.AddWithValue("DATEOFBIRTH", user.dateOfBirth);
                     cmd.Parameters.AddWithValue("EMAIL", user.email);
                     cmd.Parameters.AddWithValue("PASSWORD", user.password);
                     cmd.Parameters.AddWithValue("ISADMIN", user.isAdmin);
@@ -52,8 +55,8 @@ namespace TicketVenueSystem.DB
 
             int insertedRowsNoPerson = 0;
             int insertedRowsNoOrganizer = 0;
-            string queryStringPerson = "insert into Person(firstName, lastName, addressId_FK, phone, email, password, isAdmin, type)" +
-                                 "values(@FIRSTNAME, @LASTNAME, @ADDRESSID_FK, @PHONE, @EMAIL, @PASSWORD, @ISADMIN, @TYPE)";
+            string queryStringPerson = "insert into Person(firstName, lastName, addressId_FK, phone, dateOfBirth, email, password, isAdmin, type)" +
+                                 "values(@FIRSTNAME, @LASTNAME, @ADDRESSID_FK, @PHONE, @DATEOFBIRTH, @EMAIL, @PASSWORD, @ISADMIN, @TYPE)";
             string queryStringUser = "insert into EventOrganizer(organizerId, email_fk) values(@ORGANIZERID, @EMAIL_FK)";
 
             using (con) {
@@ -64,6 +67,7 @@ namespace TicketVenueSystem.DB
                     cmd.Parameters.AddWithValue("LASTNAME", eventOrganizer.lastName);
                     cmd.Parameters.AddWithValue("ADDRESSID_FK", addressId);
                     cmd.Parameters.AddWithValue("PHONE", eventOrganizer.phoneNo);
+                    cmd.Parameters.AddWithValue("DATEOFBIRTH", eventOrganizer.dateOfBirth);
                     cmd.Parameters.AddWithValue("EMAIL", eventOrganizer.email);
                     cmd.Parameters.AddWithValue("PASSWORD", eventOrganizer.password);
                     cmd.Parameters.AddWithValue("ISADMIN", eventOrganizer.isAdmin);
@@ -72,7 +76,7 @@ namespace TicketVenueSystem.DB
                     insertedRowsNoPerson = cmd.ExecuteNonQuery();
                 }
                 using (SqlCommand cmd = new SqlCommand(queryStringUser, con)) {
-                    cmd.Parameters.AddWithValue("USERID", eventOrganizer.organizerId);
+                    cmd.Parameters.AddWithValue("ORGANIZERID", eventOrganizer.organizerId);
                     cmd.Parameters.AddWithValue("EMAIL_FK", eventOrganizer.email);
 
                     insertedRowsNoOrganizer = cmd.ExecuteNonQuery();
@@ -91,7 +95,7 @@ namespace TicketVenueSystem.DB
 
             string queryStringZipCity = "insert into ZipCity(zip, city) values(@ZIP, @CITY)";
 
-            string queryStringAddress = "insert into Address(street, houseNo, zip_FK) values (@STREET, @HOUSENO, @ZIP_FK)";
+            string queryStringAddress = "insert into Address(street, houseNo, zip_FK) values (@STREET, @HOUSENO, @ZIP_FK); SELECT CAST(scope_identity() AS int)"; 
 
             using (con) {
                 using (SqlCommand cmd = new SqlCommand(queryStringZipCity, con)) {
@@ -104,7 +108,7 @@ namespace TicketVenueSystem.DB
                     cmd.Parameters.AddWithValue("HOUSENO", address.houseNo);
                     cmd.Parameters.AddWithValue("ZIP_FK", address.zip);
 
-                    addressId = Convert.ToInt32(cmd.ExecuteScalar());
+                    addressId = (int)cmd.ExecuteScalar();
                 }
             }
             return addressId;
