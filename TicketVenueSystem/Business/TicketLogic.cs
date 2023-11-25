@@ -20,44 +20,24 @@ namespace TicketVenueSystem.Business
         /// <param name="venueEvent">Which event the ticket is for</param>
         /// <returns>Boolean</returns>
 
-        public Boolean createTicket(Seat seat, string id, DateTime startDate, DateTime endDate, User user, VenueEvent venueEvent, string hall)
+        public Boolean createTicket(Seat seat, string id, DateTime startDate, DateTime endDate, User user, VenueEvent venueEvent, Hall hall)
         {
             Boolean res = false;
-
-            Ticket ticket = null; ;
 
             //Dummy Data
             DateTime dummyStartDate = new DateTime(2024, 10, 6);
             DateTime dummyEndDate = new DateTime(2024, 10, 7);
 
-
-            if (!checkDateOverlap(startDate, endDate, venueEvent.startDate, venueEvent.endDate))
-            {
-                if (!checkSeatDateOverlap(startDate, endDate, dummyStartDate, dummyEndDate))
+            if (!checkDateOverlap(startDate, endDate, venueEvent.startDate, venueEvent.endDate) &&
+                (!checkSeatDateOverlap(startDate, endDate, dummyStartDate, dummyEndDate) &&
+                (!checkHalldateOverlap(venueEvent.hall, startDate, endDate))
                 {
-                    res = true;
-                }
+                hall.venueEvents.Add(venueEvent);
+                res = true;
             }
+
             return res;
 
-            // Check if the hall is available during the specified date range
-            if (IsHallAvailable(hall, startDate, endDate))
-            {
-                // Create the event
-                Event newEvent = new Event(eventName, price, startDate, endDate, hall);
-                events.Add(newEvent);
-
-                // Mark the hall as occupied during the specified date range
-                MarkHallAsOccupied(hall, startDate, endDate);
-
-                Console.WriteLine($"Ticket '{ticket}' created successfully in hall '{hall}' from {startDate} to {endDate}.");
-                return true;
-            }
-            else
-            {
-                Console.WriteLine($"Hall '{hall}' is already occupied during the specified date range. Choose a different hall or date.");
-                return false;
-            }
         }
         /// <summary>
         /// Checks if the date of the ticket matches the date of the event
@@ -77,19 +57,7 @@ namespace TicketVenueSystem.Business
             }
             return res;
         }
-        private bool IsHallAvailable(string hall, DateTime startDate, DateTime endDate)
-        {
-            // Check if the hall is not in the list of taken halls
-            return !occupiedHalls.Exists(occupiedHall => occupiedHall == hall && IsDateRangeOverlap(startDate, endDate));
-        }
-        private void MarkHallAsOccupied(string hall, DateTime startDate, DateTime endDate)
-        {
-            // Mark the hall as occupied during the specified date range
-            for (DateTime currentDate = startDate; currentDate <= endDate; currentDate = currentDate.AddDays(1))
-            {
-                occupiedHalls.Add($"{hall}_{currentDate.ToShortDateString()}");
-            }
-        }
+
         /// <summary>
         /// Checks if a seat is available in the chosen time of the event
         /// </summary>
@@ -111,6 +79,25 @@ namespace TicketVenueSystem.Business
             {
                 res = false;
             }
+            return res;
+        }
+
+        private Boolean checkHalldateOverlap(Hall hall, DateTime desiredStartDate, DateTime desiredEndDate, DateTime existingStartDate, DateTime existingEndDate)
+        {
+            Boolean res = true;
+
+            if (hall.venueEvents.Count >= 0)
+            {
+                if (desiredStartDate < existingEndDate &&
+                existingStartDate > desiredEndDate ||
+                desiredStartDate > existingEndDate &&
+                existingStartDate < desiredEndDate)
+                {
+                    res = false;
+                }
+
+            }
+
             return res;
         }
     }

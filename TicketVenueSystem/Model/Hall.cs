@@ -8,12 +8,11 @@ namespace TicketVenueSystem.Model
 {
     public class Hall
     {
-        public string hallNumber { get; set; }
+        public int hallNumber { get; set; }
         public List<Seat> seats { get; set; }
+        public List<VenueEvent> venueEvents { get; set; } = new List<VenueEvent>();
 
-
-        public Hall() { }
-        public Hall(string hallNumber)
+        public Hall(int hallNumber)
         {
             this.hallNumber = hallNumber;
             seats = new List<Seat>();
@@ -22,7 +21,7 @@ namespace TicketVenueSystem.Model
         public Boolean addSeat(Seat seat)
         {
             Boolean res = false;
-            if(!seats.Contains(seat))
+            if (!seats.Contains(seat))
             {
                 seats.Add(seat);
                 res = true;
@@ -33,12 +32,17 @@ namespace TicketVenueSystem.Model
         public Boolean removeSeat(Seat seat)
         {
             Boolean res = false;
-            if(seats.Contains(seat))
-            { 
+            if (seats.Contains(seat))
+            {
                 seats.Remove(seat);
                 res = true;
             }
             return res;
+        }
+
+        public void AddVenueEvent(VenueEvent newVenueEvent)
+        {
+            VenueEvents.Add(newVenueEvent);
         }
     }
 }
