@@ -8,11 +8,13 @@ namespace TicketVenueSystem.Model
 {
     public class Hall
     {
-        public int hallNumber { get; set; }
+        public String hallNumber { get; set; }
         public List<Seat> seats { get; set; }
-        public List<VenueEvent> venueEvents { get; set; } = new List<VenueEvent>();
 
-        public Hall(int hallNumber)
+
+        public Hall() { }
+
+        public Hall(String hallNumber)
         {
             this.hallNumber = hallNumber;
             seats = new List<Seat>();
@@ -38,11 +40,6 @@ namespace TicketVenueSystem.Model
                 res = true;
             }
             return res;
-        }
-
-        public void AddVenueEvent(VenueEvent newVenueEvent)
-        {
-            VenueEvents.Add(newVenueEvent);
         }
     }
 }

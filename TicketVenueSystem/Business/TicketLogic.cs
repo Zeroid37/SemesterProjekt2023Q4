@@ -22,21 +22,17 @@ namespace TicketVenueSystem.Business
 
         public Boolean createTicket(Seat seat, string id, DateTime startDate, DateTime endDate, User user, VenueEvent venueEvent, Hall hall)
         {
-            Boolean res = false;
 
             //Dummy Data
             DateTime dummyStartDate = new DateTime(2024, 10, 6);
             DateTime dummyEndDate = new DateTime(2024, 10, 7);
 
-            if (!checkDateOverlap(startDate, endDate, venueEvent.startDate, venueEvent.endDate) &&
-                (!checkSeatDateOverlap(startDate, endDate, dummyStartDate, dummyEndDate) &&
-                (!checkHalldateOverlap(venueEvent.hall, startDate, endDate))
-                {
-                hall.venueEvents.Add(venueEvent);
-                res = true;
-            }
 
-            return res;
+            Boolean isDateOverlapped = checkDateOverlap(startDate, endDate, venueEvent.startDate, venueEvent.endDate);
+            Boolean isSeatOverlapped = checkSeatDateOverlap(startDate, endDate, dummyStartDate, dummyEndDate);
+
+
+            return(isDateOverlapped && isSeatOverlapped);
 
         }
         /// <summary>
@@ -69,35 +65,13 @@ namespace TicketVenueSystem.Business
         private Boolean checkSeatDateOverlap(DateTime desiredStartDate, DateTime desiredEndDate, DateTime existingStartDate, DateTime existingEndDate)
 
         {
-            Boolean res = true
+            Boolean res = true;
 
-
-            if (desiredStartDate < existingEndDate &&
-                existingStartDate > desiredEndDate ||
-                desiredStartDate > existingEndDate &&
-                existingStartDate < desiredEndDate)
+            if (desiredStartDate < existingEndDate && existingStartDate > desiredEndDate ||
+                desiredStartDate > existingEndDate && existingStartDate < desiredEndDate)
             {
                 res = false;
             }
-            return res;
-        }
-
-        private Boolean checkHalldateOverlap(Hall hall, DateTime desiredStartDate, DateTime desiredEndDate, DateTime existingStartDate, DateTime existingEndDate)
-        {
-            Boolean res = true;
-
-            if (hall.venueEvents.Count >= 0)
-            {
-                if (desiredStartDate < existingEndDate &&
-                existingStartDate > desiredEndDate ||
-                desiredStartDate > existingEndDate &&
-                existingStartDate < desiredEndDate)
-                {
-                    res = false;
-                }
-
-            }
-
             return res;
         }
     }

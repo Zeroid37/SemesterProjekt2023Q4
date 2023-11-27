@@ -52,8 +52,8 @@ namespace TicketVenueSystem.DB
                     reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        UserDB udb = new UserDB();
-                        VenueEventDB vedb = new VenueEventDB();
+                        //UserDB udb = new UserDB();
+                        //VenueEventDB vedb = new VenueEventDB();
                         SeatDB sdb = new SeatDB();
 
                         ticket.ticket_ID = reader.GetString(reader.GetOrdinal("ticket_ID"));
@@ -61,7 +61,7 @@ namespace TicketVenueSystem.DB
                         ticket.endDate = reader.GetDateTime(reader.GetOrdinal("endDate"));
 
                         ticket.seat = sdb.getSeatFromSeatNo(reader.GetString(reader.GetOrdinal("seatNumber_FK")));
-                        ticket.venueEvent = vedb.getVenueEventById(reader.GetString(reader.GetOrdinal("venueEventID_FK")));
+                        //ticket.venueEvent = vedb.getVenueEventById(reader.GetString(reader.GetOrdinal("venueEventID_FK")));
                         
                         //ticket.user = udb.getUserByUserID(reader.GetString(reader.GetOrdinal("userID_FK")));                       
                             
