@@ -22,42 +22,6 @@ namespace TicketVenueSystem.DB
             connectionString = Configuration.GetConnectionString("ConnectMsSqlString");
         }
 
-
-        private Boolean addPersonToDB(Person person, SqlConnection con, SqlTransaction transaction)
-        {
-            int insertedRows = 0;
-            string addPersonToDBQuery = "insert into Person(firstName, lastName, addressId_FK, phone, dateOfBirth, email, password, isAdmin, type)" +
-                                 "values(@FIRSTNAME, @LASTNAME, @ADDRESSID_FK, @PHONE, @DATEOFBIRTH, @EMAIL, @PASSWORD, @ISADMIN, @TYPE)";
-
-            
-            using (SqlCommand cmd = new SqlCommand(addPersonToDBQuery, con, transaction))
-            {
-                try
-                {
-                    int addressId = addAddressToDB(person.address, con, transaction);
-                    cmd.CommandText = addPersonToDBQuery;
-
-                    cmd.Parameters.AddWithValue("FIRSTNAME", person.firstName);
-                    cmd.Parameters.AddWithValue("LASTNAME", person.lastName);
-                    cmd.Parameters.AddWithValue("ADDRESSID_FK", addressId);
-                    cmd.Parameters.AddWithValue("PHONE", person.phoneNo);
-                    cmd.Parameters.AddWithValue("DATEOFBIRTH", person.dateOfBirth);
-                    cmd.Parameters.AddWithValue("EMAIL", person.email);
-                    cmd.Parameters.AddWithValue("PASSWORD", person.password);
-                    cmd.Parameters.AddWithValue("ISADMIN", person.isAdmin);
-                    cmd.Parameters.AddWithValue("TYPE", person.type);
-
-                    insertedRows = cmd.ExecuteNonQuery();
-                }
-                catch (SqlException)
-                {
-                    throw;
-                }
-            }
-            return (insertedRows > 0);
-        }
-
-
         public Boolean addUserToDB(User user) {
 
             int insertedRows = 0;
@@ -113,6 +77,35 @@ namespace TicketVenueSystem.DB
                     {
                         transaction.Rollback();
                     }
+                }
+            }
+            return (insertedRows > 0);
+        }
+
+        private Boolean addPersonToDB(Person person, SqlConnection con, SqlTransaction transaction) {
+            int insertedRows = 0;
+            string addPersonToDBQuery = "insert into Person(firstName, lastName, addressId_FK, phone, dateOfBirth, email, password, isAdmin, type)" +
+                                 "values(@FIRSTNAME, @LASTNAME, @ADDRESSID_FK, @PHONE, @DATEOFBIRTH, @EMAIL, @PASSWORD, @ISADMIN, @TYPE)";
+
+
+            using (SqlCommand cmd = new SqlCommand(addPersonToDBQuery, con, transaction)) {
+                try {
+                    int addressId = addAddressToDB(person.address, con, transaction);
+                    cmd.CommandText = addPersonToDBQuery;
+
+                    cmd.Parameters.AddWithValue("FIRSTNAME", person.firstName);
+                    cmd.Parameters.AddWithValue("LASTNAME", person.lastName);
+                    cmd.Parameters.AddWithValue("ADDRESSID_FK", addressId);
+                    cmd.Parameters.AddWithValue("PHONE", person.phoneNo);
+                    cmd.Parameters.AddWithValue("DATEOFBIRTH", person.dateOfBirth);
+                    cmd.Parameters.AddWithValue("EMAIL", person.email);
+                    cmd.Parameters.AddWithValue("PASSWORD", person.password);
+                    cmd.Parameters.AddWithValue("ISADMIN", person.isAdmin);
+                    cmd.Parameters.AddWithValue("TYPE", person.type);
+
+                    insertedRows = cmd.ExecuteNonQuery();
+                } catch (SqlException) {
+                    throw;
                 }
             }
             return (insertedRows > 0);
