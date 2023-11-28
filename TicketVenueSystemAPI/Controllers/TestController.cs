@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TicketVenueSystem.Model;
 using TicketVenueSystem.DB;
+using System.Net.WebSockets;
 
 namespace TicketVenueSystemAPI.Controllers
 {
@@ -19,22 +20,13 @@ namespace TicketVenueSystemAPI.Controllers
         [HttpGet, Route("test")]
         public String get()
         {
-            UserDB udb = new UserDB(_configuration);
+            VenueEventDB vedb = new VenueEventDB(_configuration);
+            List<VenueEvent> venues = vedb.getAllVenueEvents();
 
-            Address adress = new Address("Hjesavej", "5", "9000", "Aalborg");
-
-            string id = "69";
-            string firstName = "Smajo";
-            string lastName = "Omanovic";
-            string email = "Smajo@mail";
-            string phoneNo = "1234567890";
-            DateTime dateOfBirth = new DateTime(2000, 1, 16);
-            string password = "password";
-            Boolean isAdmin = false;
-            //User user = new User(id, firstName, lastName, adress, phoneNo, email, password, isAdmin, dateOfBirth);
-            EventOrganizer e = new EventOrganizer(id, firstName, lastName, adress, phoneNo, email, password, isAdmin, dateOfBirth);
-
-            udb.addEventOrganizerToDB(e);
+            foreach(VenueEvent v in venues)
+            {
+                Console.WriteLine(v.eventName);
+            }
 
 
             return "Niggaaa";

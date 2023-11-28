@@ -29,6 +29,7 @@ namespace TicketVenueSystem.DB
 
             using (SqlConnection con = new SqlConnection(connectionString))
             using (SqlCommand cmd = new SqlCommand(getHallByHallNoQuery, con)) {
+                con.Open();
                 cmd.Parameters.AddWithValue("HALLNO", hallNo);
                 reader = cmd.ExecuteReader();
                 while (reader.Read())
