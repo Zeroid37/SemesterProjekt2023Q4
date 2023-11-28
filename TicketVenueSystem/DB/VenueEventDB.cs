@@ -1,9 +1,10 @@
 ﻿using System.Data.SqlClient;
 using TicketVenueSystem.Model;
 using Microsoft.Extensions.Configuration;
+using System.Transactions;
 
 namespace TicketVenueSystem.DB {
-    internal class VenueEventDB : VenueEventDAO {
+    public class VenueEventDB : VenueEventDAO {
 
         private IConfiguration Configuration;
         private String? connectionString;
@@ -37,8 +38,8 @@ namespace TicketVenueSystem.DB {
         public VenueEvent getVenueEventById(String venueEvent_ID) {
 
             VenueEvent ve = new VenueEvent();
-
             SqlDataReader reader = null;
+
 
             using (SqlConnection con = new SqlConnection(connectionString))
             using (SqlCommand cmd = con.CreateCommand())
@@ -53,13 +54,43 @@ namespace TicketVenueSystem.DB {
                     ve.startDate = reader.GetDateTime(reader.GetOrdinal("startDate"));
                     ve.endDate = reader.GetDateTime(reader.GetOrdinal("endDate"));
 
-                    HallDB halldb = new HallDB();
+                    HallDB halldb = new HallDB(Configuration);
                     Hall hall = halldb.getHallFromHallNo(reader.GetString(reader.GetOrdinal("hallnumber_fk")));
 
                     ve.hall = hall;
                 }
             }
             return ve;
+        }
+
+        public List<VenueEvent> getAllVenueEvents()
+        {
+            List<VenueEvent> venueEventsList = new List<VenueEvent>();
+            String getVenueEvents = "SELECT venueEvent_ID, price, eventName, startDate, endDate, hallNumber_FK from venueEvent";
+            HallDB hdb = new HallDB(Configuration);
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand(getVenueEvents, con))
+                {
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        String venueEvent_ID = reader.GetString(reader.GetOrdinal("venueEvent_ID"));
+                        Double price = reader.GetDouble(reader.GetOrdinal("price"));
+                        String eventName = reader.GetString(reader.GetOrdinal("eventName"));
+                        DateTime startDate = reader.GetDateTime(reader.GetOrdinal("startDate"));
+                        DateTime endDate = reader.GetDateTime(reader.GetOrdinal("endDate"));
+
+                        String hallNumber_FK = reader.GetString(reader.GetOrdinal("hallNumber_FK"));
+                        Hall hall = hdb.getHallFromHallNo(hallNumber_FK);
+
+                        VenueEvent ve = new VenueEvent(venueEvent_ID, price, eventName, startDate, endDate, hall);
+                        venueEventsList.Add(ve);
+                    }
+                }
+            }
+            return venueEventsList;
         }
     }
 }
