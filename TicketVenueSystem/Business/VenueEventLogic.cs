@@ -57,6 +57,53 @@ namespace TicketVenueSystem.Business
         //    return res;
         //}
 
+
+        public Boolean checkOverlap(DateTime startDate, DateTime endDate, string hallNo, VenueEvent venueEvent)
+        {
+
+
+            //DateTime dummyStartDate = new DateTime(2023, 1, 13);
+            //DateTime dummyEndDate = new DateTime(2023, 1, 14);
+
+            //DateTime dummyExistingStartDate = new DateTime(2023, 1, 20);
+            //DateTime dummyExistingEndDate = new DateTime(2023, 1, 21);
+
+
+            Boolean isHallOverlap = checkHallOverlap(hallNo);
+            Boolean isHallDateOverlap = checkHallDateOverlap(startDate, endDate, venueEvent.startDate, venueEvent.endDate);
+
+            if (isHallOverlap)
+            {
+                _ = isHallDateOverlap;
+                return isHallDateOverlap;
+            }
+            return (isHallOverlap && isHallDateOverlap);
+        }
+
+
+
+        private static bool checkHallOverlap(string hall)
+        {
+            Boolean res = true;
+            List<String> existingVenues = new List<string>();
+
+            for (int ol = 0; ol < existingVenues.Count; ol++)
+            {
+                if (existingVenues[ol] == hall)
+                {
+                    res = true;
+                    return res;
+                }
+                else
+                {
+                    res = false;
+                }
+            }
+
+            return res;
+
+        }
+
         private Boolean checkHallDateOverlap(DateTime desiredStartDate, DateTime desiredEndDate, DateTime existingStartDate, DateTime existingEndDate)
         {
             Boolean res = true;
