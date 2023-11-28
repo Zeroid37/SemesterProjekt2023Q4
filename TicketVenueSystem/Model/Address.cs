@@ -11,6 +11,7 @@ namespace TicketVenueSystem.Model {
         public string zip { get; set; }
         public string city { get; set; }
 
+        public Address() { }
         public Address(string street, string houseNo, string zip, string city) {
             this.street = street;
             this.houseNo = houseNo;
