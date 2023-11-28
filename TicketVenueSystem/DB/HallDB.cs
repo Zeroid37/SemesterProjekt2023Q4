@@ -1,41 +1,46 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 using TicketVenueSystem.Model;
 
 namespace TicketVenueSystem.DB
 {
-    internal class HallDB : HallDAO
+    public class HallDB : HallDAO
     {
-        public Hall getHallFromHallNo(String hallNo)
-        {
-            DBConnect DBC = DBConnect.getInstance();
-            SqlConnection con = DBC.getConnection();
-            SqlDataReader reader = null;
-            string hallNumber = "";
-            Hall hall = new Hall();
-            using (con)
-            {
-                using (SqlCommand cmd = con.CreateCommand())
-                {
-                    cmd.CommandText = $"SELECT hallNumber from Hall where hallNumber={hallNo}";
-                    reader = cmd.ExecuteReader();
-                    while (reader.Read())
-                    {
+        private IConfiguration Configuration;
+        private String? connectionString;
 
-                        hallNumber = reader.GetString(reader.GetOrdinal("hallNumber"));
-
-                        hall.hallNumber = hallNumber;
-                    }
-                    return hall;
-                }
-            }
+        public HallDB(IConfiguration configuration) {
+            Configuration = configuration;
+            connectionString = Configuration.GetConnectionString("ConnectMsSqlString");
         }
 
-        public List<Hall> getAllHallsFromHallNo(String hallNo)
+        public Hall getHallFromHallNo(string hallNo) {
+            SqlDataReader reader = null;
+            Hall hall = new Hall();
+            SeatDB seatdb = new SeatDB(Configuration);
+
+            String getHallByHallNoQuery = "SELECT hallNumber from Hall where hallNumber = @HALLNO";
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            using (SqlCommand cmd = new SqlCommand(getHallByHallNoQuery, con)) {
+                cmd.Parameters.AddWithValue("HALLNO", hallNo);
+                reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    hall.hallNumber = reader.GetString(reader.GetOrdinal("hallNumber"));
+                    hall.seats = seatdb.getAllSeatsFromHallNo(hallNo);
+                }
+                return hall;
+                }
+            }
+        
+        public List<Hall> getAllHallsFromHallNo(string hallNo) //TODO Update
         {
             DBConnect DBC = DBConnect.getInstance();
             SqlConnection con = DBC.getConnection();

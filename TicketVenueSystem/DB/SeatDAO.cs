@@ -11,6 +11,6 @@ namespace TicketVenueSystem.DB
     internal interface SeatDAO
     {
         public Seat getSeatFromSeatNo(String seatNo);
-        public List<Seat> getAllSeatsFromHallNo(int hallNo);
+        public List<Seat> getAllSeatsFromHallNo(string hallNo);
     }
 }
