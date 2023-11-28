@@ -35,7 +35,7 @@ namespace TicketVenueSystem.DB {
             return (insertedRowsNo > 0);
         }
 
-        public VenueEvent getVenueEventById(String venueEvent_ID) {
+        public VenueEvent getVenueEventById(int venueEvent_ID) {
 
             VenueEvent ve = new VenueEvent();
             SqlDataReader reader = null;
@@ -44,6 +44,7 @@ namespace TicketVenueSystem.DB {
             using (SqlConnection con = new SqlConnection(connectionString))
             using (SqlCommand cmd = con.CreateCommand())
             {
+                con.Open();
                 cmd.CommandText = $"SELECT venueEvent_ID, price, eventName, startDate, endDate, hallNumber_FK from VenueEvent where venueEvent_ID = {venueEvent_ID}";
                 reader = cmd.ExecuteReader();
                 while (reader.Read())

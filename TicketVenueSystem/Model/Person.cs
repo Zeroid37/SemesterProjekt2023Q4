@@ -17,6 +17,12 @@ namespace TicketVenueSystem.Model {
         public DateTime dateOfBirth { get; set; }
         public string type { get; set; }
 
+
+        public Person(String type) 
+        {
+            this.type = type;
+        }
+
         public Person(string firstName, string lastName, Address address, string phoneNo, string email, string password, bool isAdmin, DateTime dateOfBirth, string type) {
             this.firstName = firstName;
             this.lastName = lastName;

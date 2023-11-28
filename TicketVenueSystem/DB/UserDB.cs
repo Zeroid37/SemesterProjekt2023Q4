@@ -143,7 +143,119 @@ namespace TicketVenueSystem.DB
 
         public User getUserByEmail(string email)
         {
-            throw new NotImplementedException();
+            String getUserByEmailQuery = "SELECT userID from Users where email_FK = @EMAIL_FK";
+            String getPersonByEmailQuery = "SELECT firstName, lastName, addressId_FK, phone, dateOfBirth, password, isAdmin FROM Person where email=@EMAIL";
+            User user = new User();
+            using (SqlConnection con = new SqlConnection(connectionString))
+            using (SqlCommand cmd = new SqlCommand(getUserByEmailQuery, con))
+            using (SqlCommand cmd2 = new SqlCommand(getPersonByEmailQuery, con))
+            {
+                con.Open();
+                cmd.Parameters.AddWithValue("EMAIL_FK", email);
+                cmd2.Parameters.AddWithValue("EMAIL", email);
+                SqlDataReader reader = cmd2.ExecuteReader();
+                while (reader.Read())
+                {
+                    String firstName = reader.GetString(reader.GetOrdinal("firstName"));
+                    String lastName = reader.GetString(reader.GetOrdinal("lastName"));
+                    Address address = getAddressByAdressId(reader.GetInt32(reader.GetOrdinal("addressId_FK")));
+                    String phone = reader.GetString(reader.GetOrdinal("phone"));
+                    DateTime dateOfBirth = reader.GetDateTime(reader.GetOrdinal("dateOfBirth"));
+                    String password = reader.GetString(reader.GetOrdinal("password"));
+                    Boolean isAdmin = reader.GetBoolean(reader.GetOrdinal("isAdmin"));
+
+                    user.firstName = firstName;
+                    user.lastName = lastName;
+                    user.address = address;
+                    user.phoneNo = phone;
+                    user.dateOfBirth = dateOfBirth;
+                    user.password = password;
+                    user.isAdmin = isAdmin;
+                }
+                reader.Close();
+                SqlDataReader reader2 = cmd.ExecuteReader();
+                while (reader2.Read())
+                {
+                    user.userId = reader2.GetString(reader2.GetOrdinal("userId"));
+                }
+            }
+            return user;
+        }
+
+        public User getUserByUserID(string userID)
+        {
+            String getUserByEmailQuery = "SELECT userId, email_FK from Users where userId = @USERID";
+            String getPersonByEmailQuery = "SELECT firstName, lastName, addressId_FK, phone, dateOfBirth, password, isAdmin FROM Person where email=@EMAIL";
+            User user = new User();
+            using (SqlConnection con = new SqlConnection(connectionString))
+            using (SqlCommand cmdUser = new SqlCommand(getUserByEmailQuery, con))
+            using (SqlCommand cmdPerson = new SqlCommand(getPersonByEmailQuery, con))
+            {
+                con.Open();
+                cmdUser.Parameters.AddWithValue("USERID", userID);
+                SqlDataReader readerUser = cmdUser.ExecuteReader();
+                while (readerUser.Read())
+                {
+                    user.userId = readerUser.GetString(readerUser.GetOrdinal("userId"));
+                    user.email = readerUser.GetString(readerUser.GetOrdinal("email_FK"));
+                    
+                }
+                readerUser.Close();
+                cmdPerson.Parameters.AddWithValue("EMAIL", user.email);
+                SqlDataReader readerPerson = cmdPerson.ExecuteReader();
+                while (readerPerson.Read())
+                {
+                    String firstName = readerPerson.GetString(readerPerson.GetOrdinal("firstName"));
+                    String lastName = readerPerson.GetString(readerPerson.GetOrdinal("lastName"));
+                    Address address = getAddressByAdressId(readerPerson.GetInt32(readerPerson.GetOrdinal("addressId_FK")));
+                    String phone = readerPerson.GetString(readerPerson.GetOrdinal("phone"));
+                    DateTime dateOfBirth = readerPerson.GetDateTime(readerPerson.GetOrdinal("dateOfBirth"));
+                    String password = readerPerson.GetString(readerPerson.GetOrdinal("password"));
+                    Boolean isAdmin = readerPerson.GetBoolean(readerPerson.GetOrdinal("isAdmin"));
+
+                    user.firstName = firstName;
+                    user.lastName = lastName;
+                    user.address = address;
+                    user.phoneNo = phone;
+                    user.dateOfBirth = dateOfBirth;
+                    user.password = password;
+                    user.isAdmin = isAdmin;
+                }
+            }
+            return user;
+        }
+
+
+
+        private Address getAddressByAdressId(int id)
+        {
+            Address a = new Address();
+
+            string getAddressQuery = "select street, houseNo, zip_FK from Address where id = @ID";
+            string getZipCityQuery = "select zip, city from ZipCity where zip = @ZIP";
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            using (SqlCommand cmd = new SqlCommand(getAddressQuery, con))
+            using (SqlCommand cmd2 = new SqlCommand(getZipCityQuery, con))
+            {
+                con.Open();
+                cmd.Parameters.AddWithValue("ID", id);
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    a.street = reader.GetString(reader.GetOrdinal("street"));
+                    a.houseNo = reader.GetString(reader.GetOrdinal("houseNo"));
+                    a.zip = reader.GetString(reader.GetOrdinal("zip_FK"));
+                }
+                reader.Close();
+                cmd2.Parameters.AddWithValue("ZIP", a.zip);
+                SqlDataReader reader2 = cmd2.ExecuteReader();
+                while (reader2.Read())
+                {
+                    a.city = reader2.GetString(reader2.GetOrdinal("city"));
+                }
+            }
+            return a;
         }
     }
 }

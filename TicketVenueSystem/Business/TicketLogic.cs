@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TicketVenueSystem.DB;
 using TicketVenueSystem.Model;
 
 namespace TicketVenueSystem.Business
@@ -20,19 +21,22 @@ namespace TicketVenueSystem.Business
         /// <param name="venueEvent">Which event the ticket is for</param>
         /// <returns>Boolean</returns>
 
-        public Boolean createTicket(Seat seat, string id, DateTime startDate, DateTime endDate, User user, VenueEvent venueEvent, Hall hall)
+        public Boolean validateTicket(List<Ticket> existingTickets, Ticket validationTicket)
         {
-
-            //Dummy Data
-            DateTime dummyStartDate = new DateTime(2024, 10, 6);
-            DateTime dummyEndDate = new DateTime(2024, 10, 7);
-
-
-            Boolean isDateOverlapped = checkDateOverlap(startDate, endDate, venueEvent.startDate, venueEvent.endDate);
-            Boolean isSeatOverlapped = checkSeatDateOverlap(startDate, endDate, dummyStartDate, dummyEndDate);
-
-
-            return(isDateOverlapped && isSeatOverlapped);
+            Boolean isDateOverlapped = checkDateOverlap(validationTicket.startDate, validationTicket.endDate, validationTicket.venueEvent.startDate, validationTicket.venueEvent.endDate);
+            Boolean found = false;
+            if (!isDateOverlapped)
+            {
+                
+                for (int i=0; i<existingTickets.Count && !found; i++)
+                {
+                    if (checkSeatDateOverlap(validationTicket.startDate, validationTicket.endDate, existingTickets[i].startDate, existingTickets[i].endDate))
+                    {
+                        found = true;
+                    }
+                }
+            }
+            return (!isDateOverlapped && !found);
 
         }
         /// <summary>
@@ -42,7 +46,7 @@ namespace TicketVenueSystem.Business
         /// <param name="desiredEndDate">End date of the possible ticket</param>
         /// <param name="eventStartDate">Event start date</param>
         /// <param name="eventEndDate">Event end date</param>
-        /// <returns>Boolean</returns>
+        /// <returns>False if there is no overlap</returns>
         private Boolean checkDateOverlap(DateTime desiredStartDate, DateTime desiredEndDate, DateTime eventStartDate, DateTime eventEndDate)
         {
             Boolean res = true;
@@ -51,6 +55,7 @@ namespace TicketVenueSystem.Business
             {
                 res = false;
             }
+            Console.WriteLine("Check Event date overlap res: " + res);
             return res;
         }
 
@@ -61,7 +66,7 @@ namespace TicketVenueSystem.Business
         /// <param name="desiredEndDate">End date of the possible ticket</param>
         /// <param name="existingStartDate">Found seat date start</param>
         /// <param name="existingEndDate">Found seat date e</param>
-        /// <returns></returns>
+        /// <returns>False if there is no overlap</returns>
         private Boolean checkSeatDateOverlap(DateTime desiredStartDate, DateTime desiredEndDate, DateTime existingStartDate, DateTime existingEndDate)
 
         {
@@ -72,6 +77,7 @@ namespace TicketVenueSystem.Business
             {
                 res = false;
             }
+            Console.WriteLine("Check seat date overlap res: " + res);
             return res;
         }
     }

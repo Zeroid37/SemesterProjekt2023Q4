@@ -21,39 +21,26 @@ namespace TicketVenueSystem.DB
 
         public Seat getSeatFromSeatNo(string seatNo) { //TODO Update
 
-            DBConnect DBC = DBConnect.getInstance();
-            SqlConnection con = DBC.getConnection();
+            String getHallByHallNoQuery = "SELECT seatNumber, isInOrder from seat where seatNumber = @SEATNO";
 
-            SqlDataReader reader = null;
-            String seatNumber = "";
-            Boolean isInOrder = false;
             Seat seat = new Seat();
-            using (con)
+            using (SqlConnection con = new SqlConnection(connectionString))
+            using (SqlCommand cmd = new SqlCommand(getHallByHallNoQuery, con))
             {
-                using (SqlCommand cmd = con.CreateCommand())
+                con.Open();
+                cmd.Parameters.AddWithValue("SEATNO", seatNo);
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
                 {
-                    cmd.CommandText = $"SELECT seatNumber, isInOrder from Seat where seatNumber={seatNo}";
-                    reader = cmd.ExecuteReader();
-                    while (reader.Read()) 
-                    {
-                        
-                        seatNumber = reader.GetString(reader.GetOrdinal("seatNumber"));
-                        isInOrder = reader.GetBoolean(reader.GetOrdinal("isInOrder"));
-
-                        seat.seatNumber = seatNumber;
-                        seat.isInOrder = isInOrder;
-                    }
-                    return seat;
+                    seat.seatNumber = reader.GetString(reader.GetOrdinal("seatNumber"));
+                    seat.isInOrder = reader.GetBoolean(reader.GetOrdinal("isInOrder"));
                 }
+                return seat;
             }
         }
 
         public List<Seat> getAllSeatsFromHallNo(string hallNo) {
             List<Seat> seats = new List<Seat>();
-            SqlDataReader reader = null;
-            String seatNumber = "";
-            Boolean isInOrder = false;
-            Seat seat = new Seat();
 
             String getSeatsByHallNoQuery = "SELECT seatNumber, isInOrder from Seat where hallNumber_FK = @HALLNO";
 
@@ -61,11 +48,12 @@ namespace TicketVenueSystem.DB
             using (SqlCommand cmd = new SqlCommand(getSeatsByHallNoQuery, con)) {
                 con.Open();
                 cmd.Parameters.AddWithValue("HALLNO", hallNo);
-                reader = cmd.ExecuteReader();
+                SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    seat.seatNumber = reader.GetString(reader.GetOrdinal("seatNumber"));
-                    seat.isInOrder = reader.GetBoolean(reader.GetOrdinal("isInOrder"));
+                    String seatNumber = reader.GetString(reader.GetOrdinal("seatNumber"));
+                    Boolean isInOrder = reader.GetBoolean(reader.GetOrdinal("isInOrder"));
+                    Seat seat = new Seat(seatNumber, isInOrder);
                     seats.Add(seat);
                 }
                 return seats;
