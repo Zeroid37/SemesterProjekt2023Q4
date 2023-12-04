@@ -12,5 +12,6 @@ namespace TicketVenueSystem.DB
     {
         public VenueEvent getVenueEventById(int id);
         public bool addVenueEventToDB(VenueEvent venueEvent);
+        public List<VenueEvent> getAllVenueEvents();
     }
 }

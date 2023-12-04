@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,10 +9,27 @@ using TicketVenueSystem.Model;
 
 namespace TicketVenueSystem.Business
 {
-    internal class VenueEventLogic
+    public class VenueEventLogic
     {
+        private IConfiguration Configuration;
+        private String? connectionString;
 
+        public VenueEventLogic(IConfiguration configuration) {
+            Configuration = configuration;
+            connectionString = Configuration.GetConnectionString("ConnectMsSqlString");
+        }
 
+        public VenueEvent getVenueEventById(int id) {
+            VenueEventDAO vedb = new VenueEventDB(Configuration);
+            VenueEvent ve = vedb.getVenueEventById(id);
+            return ve;
+        }
+
+        public List<VenueEvent> getAllVenueEvents() {
+            VenueEventDAO vedb = new VenueEventDB(Configuration);
+            List<VenueEvent> venueEvents = vedb.getAllVenueEvents();
+            return venueEvents;
+        }
 
         //public Boolean createVenueEvent(double price, string eventName, DateTime startDate, DateTime endDate, Hall hall, EventOrganizer eventOrganizer, VenueEvent venueEvent)
         //{

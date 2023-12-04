@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,54 @@ namespace TicketVenueSystem.Business
 {
     public class TicketLogic
     {
+        private IConfiguration Configuration;
+        private String? connectionString;
+
+        public TicketLogic(IConfiguration configuration) {
+            Configuration = configuration;
+            connectionString = Configuration.GetConnectionString("ConnectMsSqlString");
+        }
+
+        public Ticket createTicketFromForm(int venueEventId, string seatNo, string userEmail, DateTime startDate, DateTime endDate) {
+            //DELETE THIS
+            Random rnd = new Random();
+            int num = rnd.Next();
+
+            VenueEventDB vedb = new VenueEventDB(Configuration);
+            SeatDB sdb = new SeatDB(Configuration);
+            UserDB udb = new UserDB(Configuration);
+
+            VenueEvent ve = vedb.getVenueEventById(venueEventId);
+            Seat s = sdb.getSeatFromSeatNo(seatNo);
+            User u = udb.getUserByEmail(userEmail);
+
+            Ticket ticket = new Ticket();
+            ticket.venueEvent = ve;
+            ticket.startDate = startDate;
+            ticket.endDate = endDate;
+            ticket.user = u;
+            ticket.seat = s;
+            ticket.ticket_ID = num.ToString();
+
+            //DELETE THIS
+            Console.WriteLine(endDate);
+            Console.WriteLine(startDate);
+
+            return ticket;
+        }
+
+        public List<Ticket> getAllTicketsBySeatNo(string seatNo) {
+            TicketDB tdb = new TicketDB(Configuration);
+            List<Ticket> tickets = tdb.getAllTicketsBySeatNo(seatNo);
+            return tickets;
+        }
+
+        public bool addTicketToDb(Ticket ticket) {
+            TicketDAO tdb = new TicketDB(Configuration);
+            bool res = tdb.addTicketToDB(ticket);
+            return res;
+        }
+
         /// <summary>
         /// Method to create a ticket
         /// </summary>
@@ -20,7 +69,6 @@ namespace TicketVenueSystem.Business
         /// <param name="user">User who tries to buy the ticket</param>
         /// <param name="venueEvent">Which event the ticket is for</param>
         /// <returns>Boolean</returns>
-
         public Boolean validateTicket(List<Ticket> existingTickets, Ticket validationTicket)
         {
             Boolean isDateOverlapped = checkDateOverlap(validationTicket.startDate, validationTicket.endDate, validationTicket.venueEvent.startDate, validationTicket.venueEvent.endDate);

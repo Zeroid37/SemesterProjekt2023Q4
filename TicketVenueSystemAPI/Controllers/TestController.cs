@@ -26,7 +26,7 @@ namespace TicketVenueSystemAPI.Controllers
             User u = udb.getUserByEmail("Kasper@mail");
 
             Console.WriteLine(u.firstName + " " + u.lastName + " " + u.address.city + " " + u.userId);
-            return "Niggaaa";
+            return "Nice";
         }
     }
 }
