@@ -16,7 +16,7 @@ namespace TicketVenueSystem.Business
 
         public VenueEventLogic(IConfiguration configuration) {
             Configuration = configuration;
-            connectionString = Configuration.GetConnectionString("ConnectMsSqlString");
+            connectionString = Configuration.GetConnectionString("DefaultConnection");
         }
 
         public VenueEvent getVenueEventById(int id) {

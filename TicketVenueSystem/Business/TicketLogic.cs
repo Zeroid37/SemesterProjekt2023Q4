@@ -16,7 +16,7 @@ namespace TicketVenueSystem.Business
 
         public TicketLogic(IConfiguration configuration) {
             Configuration = configuration;
-            connectionString = Configuration.GetConnectionString("ConnectMsSqlString");
+            connectionString = Configuration.GetConnectionString("DefaultConnection");
         }
 
         public Ticket createTicketFromForm(int venueEventId, string seatNo, string userEmail, DateTime startDate, DateTime endDate) {

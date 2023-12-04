@@ -19,7 +19,7 @@ namespace TicketVenueSystem.DB
         public UserDB(IConfiguration configuration) 
         {
             Configuration = configuration;
-            connectionString = Configuration.GetConnectionString("ConnectMsSqlString");
+            connectionString = Configuration.GetConnectionString("DefaultConnection");
         }
 
         public Boolean addUserToDB(User user) {
@@ -84,8 +84,8 @@ namespace TicketVenueSystem.DB
 
         private Boolean addPersonToDB(Person person, SqlConnection con, SqlTransaction transaction) {
             int insertedRows = 0;
-            string addPersonToDBQuery = "insert into Person(firstName, lastName, addressId_FK, phone, dateOfBirth, email, password, isAdmin, type)" +
-                                 "values(@FIRSTNAME, @LASTNAME, @ADDRESSID_FK, @PHONE, @DATEOFBIRTH, @EMAIL, @PASSWORD, @ISADMIN, @TYPE)";
+            string addPersonToDBQuery = "insert into Person(firstName, lastName, addressId_FK, phone, dateOfBirth, email, isAdmin, type, aspNetUsersId_FK)" +
+                                 "values(@FIRSTNAME, @LASTNAME, @ADDRESSID_FK, @PHONE, @DATEOFBIRTH, @EMAIL, @ISADMIN, @TYPE, null)";
 
 
             using (SqlCommand cmd = new SqlCommand(addPersonToDBQuery, con, transaction)) {
@@ -99,7 +99,6 @@ namespace TicketVenueSystem.DB
                     cmd.Parameters.AddWithValue("PHONE", person.phoneNo);
                     cmd.Parameters.AddWithValue("DATEOFBIRTH", person.dateOfBirth);
                     cmd.Parameters.AddWithValue("EMAIL", person.email);
-                    cmd.Parameters.AddWithValue("PASSWORD", person.password);
                     cmd.Parameters.AddWithValue("ISADMIN", person.isAdmin);
                     cmd.Parameters.AddWithValue("TYPE", person.type);
 
@@ -144,7 +143,7 @@ namespace TicketVenueSystem.DB
         public User getUserByEmail(string email)
         {
             String getUserByEmailQuery = "SELECT userID from Users where email_FK = @EMAIL_FK";
-            String getPersonByEmailQuery = "SELECT firstName, lastName, addressId_FK, phone, dateOfBirth, password, isAdmin FROM Person where email=@EMAIL";
+            String getPersonByEmailQuery = "SELECT firstName, lastName, addressId_FK, phone, dateOfBirth, isAdmin FROM Person where email=@EMAIL";
             User user = new User();
             using (SqlConnection con = new SqlConnection(connectionString))
             using (SqlCommand cmd = new SqlCommand(getUserByEmailQuery, con))
@@ -161,7 +160,6 @@ namespace TicketVenueSystem.DB
                     Address address = getAddressByAdressId(reader.GetInt32(reader.GetOrdinal("addressId_FK")));
                     String phone = reader.GetString(reader.GetOrdinal("phone"));
                     DateTime dateOfBirth = reader.GetDateTime(reader.GetOrdinal("dateOfBirth"));
-                    String password = reader.GetString(reader.GetOrdinal("password"));
                     Boolean isAdmin = reader.GetBoolean(reader.GetOrdinal("isAdmin"));
 
                     user.firstName = firstName;
@@ -169,7 +167,6 @@ namespace TicketVenueSystem.DB
                     user.address = address;
                     user.phoneNo = phone;
                     user.dateOfBirth = dateOfBirth;
-                    user.password = password;
                     user.isAdmin = isAdmin;
                 }
                 reader.Close();
@@ -185,7 +182,7 @@ namespace TicketVenueSystem.DB
         public User getUserByUserID(string userID)
         {
             String getUserByEmailQuery = "SELECT userId, email_FK from Users where userId = @USERID";
-            String getPersonByEmailQuery = "SELECT firstName, lastName, addressId_FK, phone, dateOfBirth, password, isAdmin FROM Person where email=@EMAIL";
+            String getPersonByEmailQuery = "SELECT firstName, lastName, addressId_FK, phone, dateOfBirth, isAdmin FROM Person where email=@EMAIL";
             User user = new User();
             using (SqlConnection con = new SqlConnection(connectionString))
             using (SqlCommand cmdUser = new SqlCommand(getUserByEmailQuery, con))
@@ -210,7 +207,6 @@ namespace TicketVenueSystem.DB
                     Address address = getAddressByAdressId(readerPerson.GetInt32(readerPerson.GetOrdinal("addressId_FK")));
                     String phone = readerPerson.GetString(readerPerson.GetOrdinal("phone"));
                     DateTime dateOfBirth = readerPerson.GetDateTime(readerPerson.GetOrdinal("dateOfBirth"));
-                    String password = readerPerson.GetString(readerPerson.GetOrdinal("password"));
                     Boolean isAdmin = readerPerson.GetBoolean(readerPerson.GetOrdinal("isAdmin"));
 
                     user.firstName = firstName;
@@ -218,7 +214,6 @@ namespace TicketVenueSystem.DB
                     user.address = address;
                     user.phoneNo = phone;
                     user.dateOfBirth = dateOfBirth;
-                    user.password = password;
                     user.isAdmin = isAdmin;
                 }
             }
@@ -256,6 +251,24 @@ namespace TicketVenueSystem.DB
                 }
             }
             return a;
+        }
+
+        public bool setAspNetIdByEmail(string email, string aspNetId)
+        {
+            string setAspNetIdQuery = "UPDATE Person set aspNetUsersId_FK = @ASPNETID where email = @EMAIL";
+
+            int affectedRows = 0;
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            using ( SqlCommand cmd = new SqlCommand(setAspNetIdQuery, con))
+            {
+                con.Open();
+                cmd.Parameters.AddWithValue("ASPNETID", aspNetId);
+                cmd.Parameters.AddWithValue("EMAIL", email);
+                affectedRows = cmd.ExecuteNonQuery();
+            }
+
+            return affectedRows > 0;
         }
     }
 }

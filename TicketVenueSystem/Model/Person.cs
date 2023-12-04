@@ -12,7 +12,6 @@ namespace TicketVenueSystem.Model {
         public Address address { get; set; }
         public string phoneNo { get; set; }
         public string email { get; set; }
-        public string password {  get; set; }
         public Boolean isAdmin { get; set; }
         public DateTime dateOfBirth { get; set; }
         public string type { get; set; }
@@ -23,13 +22,12 @@ namespace TicketVenueSystem.Model {
             this.type = type;
         }
 
-        public Person(string firstName, string lastName, Address address, string phoneNo, string email, string password, bool isAdmin, DateTime dateOfBirth, string type) {
+        public Person(string firstName, string lastName, Address address, string phoneNo, string email, bool isAdmin, DateTime dateOfBirth, string type) {
             this.firstName = firstName;
             this.lastName = lastName;
             this.address = address;
             this.phoneNo = phoneNo;
             this.email = email;
-            this.password = password;
             this.isAdmin = isAdmin;
             this.dateOfBirth = dateOfBirth;
             this.type = type;

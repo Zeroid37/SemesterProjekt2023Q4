@@ -13,5 +13,6 @@ namespace TicketVenueSystem.DB
         public Boolean addUserToDB(User user);
         public Boolean addEventOrganizerToDB(EventOrganizer eventOrganizer);
         public User getUserByEmail(String email);
+        public Boolean setAspNetIdByEmail(String email, String aspNetId);
     }
 }

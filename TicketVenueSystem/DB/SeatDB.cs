@@ -16,7 +16,7 @@ namespace TicketVenueSystem.DB
 
         public SeatDB(IConfiguration configuration) {
             Configuration = configuration;
-            connectionString = Configuration.GetConnectionString("ConnectMsSqlString");
+            connectionString = Configuration.GetConnectionString("DefaultConnection");
         }
 
         public Seat getSeatFromSeatNo(string seatNo) { //TODO Update

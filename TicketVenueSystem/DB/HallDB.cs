@@ -17,7 +17,7 @@ namespace TicketVenueSystem.DB
 
         public HallDB(IConfiguration configuration) {
             Configuration = configuration;
-            connectionString = Configuration.GetConnectionString("ConnectMsSqlString");
+            connectionString = Configuration.GetConnectionString("DefaultConnection");
         }
 
         public Hall getHallFromHallNo(string hallNo) {

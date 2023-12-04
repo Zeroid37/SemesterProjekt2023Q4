@@ -9,7 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "..\UnitTests\U
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketVenueSystemAPI", "..\TicketVenueSystemAPI\TicketVenueSystemAPI.csproj", "{27443A95-C47E-4F66-B740-54FF42D83222}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicketVenueRestful", "..\TicketVenueRestful\TicketVenueRestful.csproj", "{1E63AE58-3C2E-4E6D-BB16-E01BD3475F94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TicketVenueRestful", "..\TicketVenueRestful\TicketVenueRestful.csproj", "{1E63AE58-3C2E-4E6D-BB16-E01BD3475F94}"
+	ProjectSection(ProjectDependencies) = postProject
+		{20900A42-314A-4C69-8E1B-310296EBD76C} = {20900A42-314A-4C69-8E1B-310296EBD76C}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

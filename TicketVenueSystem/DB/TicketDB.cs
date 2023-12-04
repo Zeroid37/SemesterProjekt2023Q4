@@ -17,7 +17,7 @@ namespace TicketVenueSystem.DB
         public TicketDB(IConfiguration configuration)
         {
             Configuration = configuration;
-            connectionString = Configuration.GetConnectionString("ConnectMsSqlString");
+            connectionString = Configuration.GetConnectionString("DefaultConnection");
         }
 
         public bool addTicketToDB(Ticket ticket)

@@ -12,7 +12,7 @@ namespace TicketVenueSystem.DB {
         public VenueEventDB (IConfiguration configuration)
         {
             Configuration = configuration;
-            connectionString = Configuration.GetConnectionString("ConnectMsSqlString");
+            connectionString = Configuration.GetConnectionString("DefaultConnection");
         }
 
         public Boolean addVenueEventToDB(VenueEvent venueEvent) {
