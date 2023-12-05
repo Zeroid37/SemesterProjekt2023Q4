@@ -56,6 +56,5 @@ namespace TicketVenueSystemAPI.Controllers
 
             return RedirectToAction("Index");
         }
-
     }
 }
