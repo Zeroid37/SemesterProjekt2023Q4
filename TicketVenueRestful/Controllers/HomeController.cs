@@ -29,26 +29,13 @@ namespace TicketVenueRestful.Controllers
 
         public String Test()
         {
-            Console.WriteLine("We entered the Nice zone");
+            EventOrganizerLogic eLogic = new EventOrganizerLogic(_configuration);
+            List<EventOrganizer> eList = eLogic.getAllEventOrganizers();
 
-            Address address = new Address("Vejej", "5", "2934", "Copenhagen");
-            User newUser = new User();
-            newUser.email = "smajo4@mail";
-            newUser.firstName = "smajo";
-            newUser.lastName = "Omanovic";
-            newUser.phoneNo = "99999999";
-            newUser.address = address;
-            newUser.dateOfBirth = DateTime.Now;
-
-            //DELETE THIS
-            Random rnd = new Random();
-            int num = rnd.Next();
-            newUser.userId = num.ToString();
-
-            UserLogic userLogic = new UserLogic(_configuration);
-
-            userLogic.addUserToDB(newUser);
-            userLogic.setAspNetIdByEmail(newUser.email, "4fd7f974-d647-4bbb-a687-bec874da1d75");
+            foreach(EventOrganizer e in eList)
+            {
+                Console.WriteLine(e.organizerId + " " + e.firstName);
+            }
 
             return "Nice";
         }

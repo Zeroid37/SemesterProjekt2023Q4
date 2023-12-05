@@ -270,5 +270,44 @@ namespace TicketVenueSystem.DB
 
             return affectedRows > 0;
         }
+
+        public List<EventOrganizer> getAllEventOrganizers()
+        {
+            string getAllEventOrganizersQuery = "SELECT organizerId, email_FK from eventOrganizer";
+            String getPersonByEmailQuery = "SELECT firstName, lastName, addressId_FK, phone, dateOfBirth, isAdmin FROM Person where email=@EMAIL";
+            List<EventOrganizer> eList = new List<EventOrganizer>();
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            using (SqlCommand cmd = new SqlCommand(getAllEventOrganizersQuery, con))
+            using (SqlCommand cmd2 = new SqlCommand(getPersonByEmailQuery, con))
+            {
+                con.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    EventOrganizer eventOrganizer = new EventOrganizer();
+                    eventOrganizer.organizerId = reader.GetString(reader.GetOrdinal("organizerId"));
+                    eventOrganizer.email = reader.GetString(reader.GetOrdinal("email_FK"));
+                    eList.Add(eventOrganizer);
+                }
+                reader.Close();
+                foreach (EventOrganizer e in eList)
+                {
+                    cmd2.Parameters.AddWithValue("EMAIL", e.email);
+                    reader = cmd2.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        e.address = getAddressByAdressId(reader.GetInt32(reader.GetOrdinal("addressId_FK")));
+                        e.firstName = reader.GetString(reader.GetOrdinal("firstName"));
+                        e.lastName = reader.GetString(reader.GetOrdinal("lastName"));
+                        e.phoneNo = reader.GetString(reader.GetOrdinal("phone"));
+                        e.dateOfBirth = reader.GetDateTime(reader.GetOrdinal("dateOfBirth"));
+                        e.isAdmin = reader.GetBoolean(reader.GetOrdinal("isAdmin"));
+                    }
+                    reader.Close();
+                }
+            }
+            return eList;
+        }
     }
 }
