@@ -1,0 +1,49 @@
+﻿@model IEnumerable<TicketVenueSystem.Model.VenueEvent>
+
+@{
+    ViewData["Title"] = "All Events";
+}
+
+<h1>All events :)</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.eventName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.startDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.endDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.eventName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.price)
+            </td>
+            <td>
+                @Convert.ToDateTime(item.startDate).ToString("dd/MM/yyyy")
+            </td>
+            <td>
+                @Convert.ToDateTime(item.endDate).ToString("dd/MM/yyyy")
+            </td>
+            <td>
+                @Html.ActionLink("Book Ticket", "BookTicket", new {id=item.venueEvent_ID}) |
+                @Html.ActionLink("Details", "Details", new {id=item.venueEvent_ID}) |
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,86 @@
+﻿@model TicketVenueSystem.Model.VenueEvent
+
+
+@{
+    ViewData["Title"] = "Book Ticket";
+}
+
+<h1>BookTicket</h1>
+
+
+
+<div>
+    <h4>VenueEvent</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.price)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.price)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.eventName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.eventName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.startDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Convert.ToDateTime(@Model.startDate).ToString("dd/MM/yyyy")
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.endDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Convert.ToDateTime(@Model.endDate).ToString("dd/MM/yyyy")
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.hall.hallNumber)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.hall.hallNumber)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.hall.seats)
+        </dt>
+        @foreach (var item in Model.hall.seats)
+        {
+            <dd class="col-sm-10">
+                @Html.DisplayFor(modelItem => item.seatNumber)
+            </dd>
+        }
+    </dl>
+</div>
+
+<div class="input">
+    <form asp-action="BookTicket" asp-controller="VenueEvents">
+
+        <div>
+            <label>Seat</label>
+            <input name="seat" placeholder="Enter desired seat" type="text"/>
+        </div>
+
+        <div>
+            <label>Start Date</label>
+            <input name="startDate" type="date"/>
+        </div>
+
+        <div>
+            <label>End Date</label>
+            <input name="endDate" type="date" />
+        </div>
+
+        <div>
+            <input type="submit" value="Book" class="btn btn-primary"/>
+        </div>
+    </form>
+</div>
+
+<div>
+    @Html.ActionLink("Submit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>
