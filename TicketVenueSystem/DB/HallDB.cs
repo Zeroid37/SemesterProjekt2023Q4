@@ -21,6 +21,7 @@ namespace TicketVenueSystem.DB
         }
 
         public Hall getHallFromHallNo(string hallNo) {
+            Console.WriteLine(hallNo);
             SqlDataReader reader = null;
             Hall hall = new Hall();
             SeatDB seatdb = new SeatDB(Configuration);

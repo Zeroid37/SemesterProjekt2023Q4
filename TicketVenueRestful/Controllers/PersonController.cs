@@ -27,8 +27,9 @@ namespace TicketVenueRestful.Controllers
         }
 
         [HttpGet]
-        public ActionResult<EventOrganizer> EventOrganizers(String id)
+        public ActionResult<EventOrganizer> EventOrganizer(String id)
         {
+            Console.WriteLine(id);
             EventOrganizerLogic eLogic = new EventOrganizerLogic(_configuration);
             ActionResult<EventOrganizer> foundReturn;
             EventOrganizer eOrg = eLogic.getEventOrganizerById(id);

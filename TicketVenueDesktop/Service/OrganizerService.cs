@@ -25,7 +25,7 @@ namespace TicketVenueDesktop.Service
         public async Task<EventOrganizer> getEventOrganizerByID(string orgId)
         {
             _connection.useUrl = _connection.baseUrl;
-            _connection.useUrl += $"person/EventOrganizers/{orgId}";
+            _connection.useUrl += $"person/EventOrganizer/{orgId}";
 
             EventOrganizer? eOrg = new EventOrganizer();
 

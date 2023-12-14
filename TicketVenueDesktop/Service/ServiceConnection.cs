@@ -8,8 +8,8 @@ namespace TicketVenueDesktop.Service
 {
     public class ServiceConnection : IServiceConnection
     {
-        public HttpClient httpClient { get; set; }
-        public string baseUrl { get; set; }
+        public HttpClient httpClient { get; init; }
+        public string baseUrl { get; init; }
         public string useUrl { get; set; }
 
         public ServiceConnection(String inputUrl) 

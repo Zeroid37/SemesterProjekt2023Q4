@@ -7,10 +7,8 @@ using TicketVenueSystem.Model;
 
 namespace TicketVenueDesktop.Service
 {
-    public interface IOrganizerService
+    public interface IVenueEventService
     {
-        Task<List<EventOrganizer>> getEventOrganizers();
-        Task<EventOrganizer> getEventOrganizerByID(String orgId);
-
+        Task<Boolean> createVenueEvent(VenueEvent venueEvent);
     }
 }

@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using TicketVenueSystem.Business;
 using TicketVenueSystem.DB;
 using TicketVenueSystem.Model;
@@ -24,6 +26,26 @@ namespace TicketVenueSystemAPI.Controllers
 
             return View(venues);
         }
+
+        [HttpPost]
+        public ActionResult createVenueEvent([FromBody]VenueEvent venueEvent)
+        {
+            ActionResult foundReturn;
+            VenueEventLogic veLogic = new VenueEventLogic(_configuration);
+
+            Boolean ok = veLogic.createVenueEvent(venueEvent.venueEvent_ID, venueEvent.price, venueEvent.eventName, venueEvent.startDate, venueEvent.endDate, venueEvent.hall.hallNumber, venueEvent.eventOrganizer.organizerId);
+            if (ok)
+            {
+                foundReturn = Ok();
+            }
+            else
+            {
+                foundReturn = new StatusCodeResult(500);    // Internal server error
+            }
+
+            return foundReturn;
+        }
+
 
         [Authorize]
         [HttpGet]
@@ -54,7 +76,6 @@ namespace TicketVenueSystemAPI.Controllers
             {
                 Console.WriteLine("Controller False");
             }
-
             return RedirectToAction("Index");
         }
     }

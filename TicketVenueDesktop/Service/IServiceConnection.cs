@@ -8,7 +8,7 @@ namespace TicketVenueDesktop.Service
 {
     public interface IServiceConnection
     {
-        public string baseUrl { get; set; }
+        public string baseUrl { get; init; }
         public string useUrl { get; set; }
 
         Task<HttpResponseMessage> ServiceGet();

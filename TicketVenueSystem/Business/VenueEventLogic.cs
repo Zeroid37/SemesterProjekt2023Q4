@@ -31,8 +31,10 @@ namespace TicketVenueSystem.Business
             return venueEvents;
         }
 
-        public VenueEvent createVenueEvent(String id, double price, String eventName, DateTime startDate, DateTime endDate, String hallNo, String eventOrgID)
+        public Boolean createVenueEvent(string id, double price, String eventName, DateTime startDate, DateTime endDate, String hallNo, String eventOrgID)
         {
+            Boolean res = false;
+
             UserDAO udb = new UserDB(Configuration);
             HallDAO hdb = new HallDB(Configuration);
             VenueEventDAO vedb = new VenueEventDB(Configuration);
@@ -41,9 +43,9 @@ namespace TicketVenueSystem.Business
 
             VenueEvent ve = new VenueEvent(id, price, eventName, startDate, endDate, hall, evOrg);
 
-            vedb.addVenueEventToDB(ve);
+            res = vedb.addVenueEventToDB(ve);
 
-            return ve;
+            return res;
         }
 
 
