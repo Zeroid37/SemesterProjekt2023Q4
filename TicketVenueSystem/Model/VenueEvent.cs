@@ -14,11 +14,11 @@ namespace TicketVenueSystem.Model
         public DateTime startDate { get; set; }
         public DateTime endDate { get; set; }
         public Hall hall { get; set; }
-
+        public EventOrganizer eventOrganizer { get; set; }
 
         public VenueEvent() { }
 
-        public VenueEvent(string venueEvent_ID, double price, string eventName, DateTime startDate, DateTime endDate, Hall hall)
+        public VenueEvent(string venueEvent_ID, double price, string eventName, DateTime startDate, DateTime endDate, Hall hall, EventOrganizer eventOrganizer)
         {
             this.venueEvent_ID = venueEvent_ID;
             this.price = price;
@@ -26,6 +26,7 @@ namespace TicketVenueSystem.Model
             this.startDate = startDate;
             this.endDate = endDate;
             this.hall = hall;
+            this.eventOrganizer = eventOrganizer;
         }
     }
 }

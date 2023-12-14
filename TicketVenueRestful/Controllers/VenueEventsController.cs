@@ -46,7 +46,8 @@ namespace TicketVenueSystemAPI.Controllers
 
             if (ticketLogic.validateTicket(tickets, ticket))
             {
-                ticketLogic.addTicketToDb(ticket);
+                int ticketCount = ticketLogic.getTicketCount();
+                ticketLogic.addTicketToDb(ticket, ticketCount);
                 Console.WriteLine("Controller True");
             }
             else

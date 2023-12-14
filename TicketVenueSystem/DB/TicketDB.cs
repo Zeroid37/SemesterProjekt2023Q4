@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TicketVenueSystem.Model;
+using System.Threading;
 
 namespace TicketVenueSystem.DB
 {
@@ -20,28 +21,28 @@ namespace TicketVenueSystem.DB
             connectionString = Configuration.GetConnectionString("DefaultConnection");
         }
 
-        public bool addTicketToDB(Ticket ticket)
+        public bool addTicketToDB(Ticket ticket, int ticketCount)
         {
-            DBConnect DBC = DBConnect.getInstance();
-            SqlConnection con = DBC.getConnection();
-
             int insertedRowsNo = 0;
-            string queryString = "insert into Ticket(ticket_ID, startDate, endDate, venueEventID_FK, userID_FK, seatNumber_FK)" +
+            string queryString = "if (Select Count(*) as count_ticket from Ticket) = @TICKETCOUNT " +
+                                 "insert into Ticket(ticket_ID, startDate, endDate, venueEventID_FK, userID_FK, seatNumber_FK)" +
                                  "values(@TICKET_ID, @STARTDATE, @ENDDATE, @VENUEEVENTID_FK, @USERID_FK, @SEATNUMBER_FK)";
-
-            using (con)
+            using (SqlConnection con = new SqlConnection(connectionString))                
+            using (SqlCommand cmd = new SqlCommand(queryString, con))
             {
-                using (SqlCommand cmd = new SqlCommand(queryString, con))
-                {
-                    cmd.Parameters.AddWithValue("TICKET_ID", ticket.ticket_ID);
-                    cmd.Parameters.AddWithValue("STARTDATE", ticket.startDate);
-                    cmd.Parameters.AddWithValue("ENDDATE", ticket.endDate);
-                    cmd.Parameters.AddWithValue("VENUEEVENTID_FK", ticket.venueEvent.venueEvent_ID);
-                    cmd.Parameters.AddWithValue("USERID_FK", ticket.user.userId);
-                    cmd.Parameters.AddWithValue("SEATNUMBER_FK", ticket.seat.seatNumber);
+                Thread.Sleep(10000);
+                con.Open();
+                Console.WriteLine(ticketCount);
+                cmd.Parameters.AddWithValue("TICKETCOUNT", ticketCount);
+                cmd.Parameters.AddWithValue("TICKET_ID", ticket.ticket_ID);
+                cmd.Parameters.AddWithValue("STARTDATE", ticket.startDate);
+                cmd.Parameters.AddWithValue("ENDDATE", ticket.endDate);
+                cmd.Parameters.AddWithValue("VENUEEVENTID_FK", ticket.venueEvent.venueEvent_ID);
+                cmd.Parameters.AddWithValue("USERID_FK", ticket.user.userId);
+                cmd.Parameters.AddWithValue("SEATNUMBER_FK", ticket.seat.seatNumber);
 
-                    insertedRowsNo = cmd.ExecuteNonQuery();
-                }
+                insertedRowsNo = cmd.ExecuteNonQuery();
+                Console.WriteLine(insertedRowsNo > 0);
             }
             return (insertedRowsNo > 0);
         }
@@ -118,6 +119,24 @@ namespace TicketVenueSystem.DB
                 }
             }
             return ticket;
+        }
+
+        public int getTicketCount()
+        {
+            int ticketCount = -1;
+            String getSeatsByHallNoQuery = "Select Count(*) as count_ticket from Ticket";
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            using (SqlCommand cmd = new SqlCommand(getSeatsByHallNoQuery, con))
+            {
+                con.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    ticketCount = reader.GetInt32(reader.GetOrdinal("count_ticket"));
+                }
+                return ticketCount;
+            }
         }
 
         public bool removeTicketFromDB(Ticket ticket)

@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -19,6 +20,32 @@ namespace TicketVenueDesktop.Service
         public OrganizerService()
         {
             _connection = new ServiceConnection(_baseUrl);
+        }
+
+        public async Task<EventOrganizer> getEventOrganizerByID(string orgId)
+        {
+            _connection.useUrl = _connection.baseUrl;
+            _connection.useUrl += $"person/EventOrganizers/{orgId}";
+
+            EventOrganizer? eOrg = new EventOrganizer();
+
+            if (_connection != null)
+            {
+                try
+                {
+                    var response = await _connection.ServiceGet();
+                    if (response != null && response.IsSuccessStatusCode)
+                    {
+                        var content = await response.Content.ReadAsStringAsync();
+                        eOrg = JsonConvert.DeserializeObject<EventOrganizer>(content);
+                    }
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+            return eOrg;
         }
 
         public async Task<List<EventOrganizer>> getEventOrganizers()

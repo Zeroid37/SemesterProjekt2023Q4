@@ -179,6 +179,49 @@ namespace TicketVenueSystem.DB
             return user;
         }
 
+        public EventOrganizer getEventOrganizerByID(string ID)
+        {
+            String getUserByEmailQuery = "SELECT email_fk from EventOrganizer where organizerId = @ORGANIZER_ID";
+            String getPersonByEmailQuery = "SELECT firstName, lastName, addressId_FK, phone, dateOfBirth, isAdmin FROM Person where email=@EMAIL";
+            EventOrganizer evOrg = new EventOrganizer();
+            evOrg.organizerId = ID;
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            using (SqlCommand cmd = new SqlCommand(getUserByEmailQuery, con))
+            using (SqlCommand cmd2 = new SqlCommand(getPersonByEmailQuery, con))
+            {
+                con.Open();
+                cmd.Parameters.AddWithValue("ORGANIZER_ID", ID);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    evOrg.email = reader.GetString(reader.GetOrdinal("email_FK"));
+                }
+                reader.Close();
+
+                cmd2.Parameters.AddWithValue("EMAIL", evOrg.email);
+                reader = cmd2.ExecuteReader();
+                while (reader.Read())
+                {
+                    String firstName = reader.GetString(reader.GetOrdinal("firstName"));
+                    String lastName = reader.GetString(reader.GetOrdinal("lastName"));
+                    Address address = getAddressByAdressId(reader.GetInt32(reader.GetOrdinal("addressId_FK")));
+                    String phone = reader.GetString(reader.GetOrdinal("phone"));
+                    DateTime dateOfBirth = reader.GetDateTime(reader.GetOrdinal("dateOfBirth"));
+                    Boolean isAdmin = reader.GetBoolean(reader.GetOrdinal("isAdmin"));
+
+                    evOrg.firstName = firstName;
+                    evOrg.lastName = lastName;
+                    evOrg.address = address;
+                    evOrg.phoneNo = phone;
+                    evOrg.dateOfBirth = dateOfBirth;
+                    evOrg.isAdmin = isAdmin;
+                }
+            }
+            return evOrg;
+        }
+
         public User getUserByUserID(string userID)
         {
             String getUserByEmailQuery = "SELECT userId, email_FK from Users where userId = @USERID";

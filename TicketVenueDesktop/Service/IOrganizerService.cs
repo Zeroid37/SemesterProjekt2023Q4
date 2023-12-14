@@ -10,5 +10,6 @@ namespace TicketVenueDesktop.Service
     public interface IOrganizerService
     {
         Task<List<EventOrganizer>> getEventOrganizers();
+        Task<EventOrganizer> getEventOrganizerByID(String orgId);
     }
 }

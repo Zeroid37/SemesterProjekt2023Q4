@@ -19,6 +19,15 @@ namespace TicketVenueSystem.Business
             connectionString = Configuration.GetConnectionString("DefaultConnection");
         }
 
+        public int getTicketCount()
+        {
+            int count = -1;
+            TicketDAO tdb = new TicketDB(Configuration);
+            count = tdb.getTicketCount();
+
+            return count;
+        }
+
         public Ticket createTicketFromForm(int venueEventId, string seatNo, string userEmail, DateTime startDate, DateTime endDate) {
             //DELETE THIS
             Random rnd = new Random();
@@ -53,9 +62,9 @@ namespace TicketVenueSystem.Business
             return tickets;
         }
 
-        public bool addTicketToDb(Ticket ticket) {
+        public bool addTicketToDb(Ticket ticket, int ticketCount) {
             TicketDAO tdb = new TicketDB(Configuration);
-            bool res = tdb.addTicketToDB(ticket);
+            bool res = tdb.addTicketToDB(ticket, ticketCount);
             return res;
         }
 

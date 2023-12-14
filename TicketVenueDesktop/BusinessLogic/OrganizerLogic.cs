@@ -32,5 +32,22 @@ namespace TicketVenueDesktop.BusinessLogic
 
             return eList;
         }
+
+
+        public async Task<EventOrganizer> getEventOrganizerById(String id)
+        {
+            EventOrganizer eOrg;
+
+            try
+            {
+                eOrg = await _organizerService.getEventOrganizerByID(id);
+            }
+            catch
+            {
+                eOrg = null;
+            }
+
+            return eOrg;
+        }
     }
 }

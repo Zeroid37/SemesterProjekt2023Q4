@@ -8,9 +8,10 @@ using TicketVenueSystem.Model;
 
 namespace TicketVenueSystem.DB
 {
-    internal interface TicketDAO
+    public interface TicketDAO
     {
-        public Boolean addTicketToDB(Ticket ticket);
+        public int getTicketCount();
+        public Boolean addTicketToDB(Ticket ticket, int ticketCount);
         public Boolean removeTicketFromDB(Ticket ticket);
         public Ticket getTicketByUserID(string userID);
         public List<Ticket> getAllTicketsBySeatNo(String seatNo);

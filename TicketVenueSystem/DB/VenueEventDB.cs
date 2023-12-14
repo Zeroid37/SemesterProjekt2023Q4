@@ -18,17 +18,20 @@ namespace TicketVenueSystem.DB {
         public Boolean addVenueEventToDB(VenueEvent venueEvent) {
 
             int insertedRowsNo = 0;
-            string addVenueEventToDBQueryString = "insert into VenueEvent(venueEvent_ID, price, eventName, startDate, endDate, hallNumber_FK)" +
-                                 "values(@VENUEEVENT_ID, @PRICE, @EVENTNAME, @STARTDATE, @ENDDATE, @HALLNUMBER_FK)";
+            string addVenueEventToDBQueryString = "insert into VenueEvent(venueEvent_ID, price, eventName, startDate, endDate, hallNumber_FK, organizerId_FK)" +
+                                 "values(@VENUEEVENT_ID, @PRICE, @EVENTNAME, @STARTDATE, @ENDDATE, @HALLNUMBER_FK, @ORGANIZERID_FK)";
 
             using (SqlConnection con = new SqlConnection(connectionString))   
             using (SqlCommand cmd = new SqlCommand(addVenueEventToDBQueryString, con)) {
+                con.Open();
                 cmd.Parameters.AddWithValue("VENUEEVENT_ID", venueEvent.venueEvent_ID);
                 cmd.Parameters.AddWithValue("PRICE", venueEvent.price);
                 cmd.Parameters.AddWithValue("EVENTNAME", venueEvent.eventName);
                 cmd.Parameters.AddWithValue("STARTDATE", venueEvent.startDate);
                 cmd.Parameters.AddWithValue("ENDDATE", venueEvent.endDate);
                 cmd.Parameters.AddWithValue("HALLNUMBER_FK", venueEvent.hall.hallNumber);
+                cmd.Parameters.AddWithValue("ORGANIZERID_FK", venueEvent.eventOrganizer.organizerId);
+
 
                 insertedRowsNo = cmd.ExecuteNonQuery();
             }
@@ -67,8 +70,9 @@ namespace TicketVenueSystem.DB {
         public List<VenueEvent> getAllVenueEvents()
         {
             List<VenueEvent> venueEventsList = new List<VenueEvent>();
-            String getVenueEvents = "SELECT venueEvent_ID, price, eventName, startDate, endDate, hallNumber_FK from venueEvent";
-            HallDB hdb = new HallDB(Configuration);
+            String getVenueEvents = "SELECT venueEvent_ID, price, eventName, startDate, endDate, hallNumber_FK, organizerId_FK from venueEvent";
+            HallDAO hdb = new HallDB(Configuration);
+            UserDAO udb = new UserDB(Configuration);
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 con.Open();
@@ -86,7 +90,10 @@ namespace TicketVenueSystem.DB {
                         String hallNumber_FK = reader.GetString(reader.GetOrdinal("hallNumber_FK"));
                         Hall hall = hdb.getHallFromHallNo(hallNumber_FK);
 
-                        VenueEvent ve = new VenueEvent(venueEvent_ID, price, eventName, startDate, endDate, hall);
+                        String eventOrgId = reader.GetString(reader.GetOrdinal("organizerId_FK"));
+                        EventOrganizer eOrg = udb.getEventOrganizerByID(eventOrgId);
+
+                        VenueEvent ve = new VenueEvent(venueEvent_ID, price, eventName, startDate, endDate, hall, eOrg);
                         venueEventsList.Add(ve);
                     }
                 }

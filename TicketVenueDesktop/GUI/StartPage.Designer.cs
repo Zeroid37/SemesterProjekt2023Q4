@@ -34,9 +34,17 @@
             listView1 = new ListView();
             ID = new ColumnHeader();
             oName = new ColumnHeader();
+            tableLayoutPanel3 = new TableLayoutPanel();
+            tableLayoutPanel4 = new TableLayoutPanel();
             button1 = new Button();
+            tableLayoutPanel5 = new TableLayoutPanel();
+            label2 = new Label();
+            textBox1 = new TextBox();
             tableLayoutPanel2.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
+            tableLayoutPanel3.SuspendLayout();
+            tableLayoutPanel4.SuspendLayout();
+            tableLayoutPanel5.SuspendLayout();
             SuspendLayout();
             // 
             // tableLayoutPanel2
@@ -45,7 +53,7 @@
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel2.Controls.Add(tableLayoutPanel1, 0, 0);
-            tableLayoutPanel2.Controls.Add(button1, 1, 0);
+            tableLayoutPanel2.Controls.Add(tableLayoutPanel3, 1, 0);
             tableLayoutPanel2.Dock = DockStyle.Fill;
             tableLayoutPanel2.Location = new Point(0, 0);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -84,18 +92,21 @@
             // 
             // listView1
             // 
+            listView1.Activation = ItemActivation.TwoClick;
             listView1.Columns.AddRange(new ColumnHeader[] { ID, oName });
             listView1.Dock = DockStyle.Fill;
             listView1.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point);
             listView1.FullRowSelect = true;
             listView1.GridLines = true;
             listView1.Location = new Point(3, 59);
+            listView1.MultiSelect = false;
             listView1.Name = "listView1";
             listView1.Size = new Size(390, 390);
             listView1.TabIndex = 1;
             listView1.UseCompatibleStateImageBehavior = false;
             listView1.View = View.Details;
             listView1.SelectedIndexChanged += listView1_SelectedIndexChanged;
+            listView1.Click += listView1_Click;
             // 
             // ID
             // 
@@ -107,15 +118,82 @@
             oName.Text = "Name";
             oName.Width = 230;
             // 
+            // tableLayoutPanel3
+            // 
+            tableLayoutPanel3.ColumnCount = 1;
+            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel3.Controls.Add(tableLayoutPanel4, 0, 0);
+            tableLayoutPanel3.Dock = DockStyle.Fill;
+            tableLayoutPanel3.Location = new Point(405, 3);
+            tableLayoutPanel3.Name = "tableLayoutPanel3";
+            tableLayoutPanel3.RowCount = 2;
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 48.8938065F));
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 51.1061935F));
+            tableLayoutPanel3.Size = new Size(397, 452);
+            tableLayoutPanel3.TabIndex = 1;
+            // 
+            // tableLayoutPanel4
+            // 
+            tableLayoutPanel4.ColumnCount = 2;
+            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 75.19182F));
+            tableLayoutPanel4.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 24.8081837F));
+            tableLayoutPanel4.Controls.Add(button1, 0, 0);
+            tableLayoutPanel4.Controls.Add(tableLayoutPanel5, 0, 1);
+            tableLayoutPanel4.Dock = DockStyle.Fill;
+            tableLayoutPanel4.Location = new Point(3, 3);
+            tableLayoutPanel4.Name = "tableLayoutPanel4";
+            tableLayoutPanel4.RowCount = 2;
+            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 23.72093F));
+            tableLayoutPanel4.RowStyles.Add(new RowStyle(SizeType.Percent, 76.27907F));
+            tableLayoutPanel4.Size = new Size(391, 215);
+            tableLayoutPanel4.TabIndex = 0;
+            // 
             // button1
             // 
-            button1.Location = new Point(405, 3);
+            button1.Dock = DockStyle.Fill;
+            button1.Location = new Point(3, 3);
             button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 1;
-            button1.Text = "button1";
+            button1.Size = new Size(288, 45);
+            button1.TabIndex = 0;
+            button1.Text = "Search";
             button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            button1.Click += button1_Click_1;
+            // 
+            // tableLayoutPanel5
+            // 
+            tableLayoutPanel5.ColumnCount = 2;
+            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel5.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 210F));
+            tableLayoutPanel5.Controls.Add(label2, 0, 0);
+            tableLayoutPanel5.Controls.Add(textBox1, 1, 0);
+            tableLayoutPanel5.Dock = DockStyle.Fill;
+            tableLayoutPanel5.Location = new Point(3, 54);
+            tableLayoutPanel5.Name = "tableLayoutPanel5";
+            tableLayoutPanel5.RowCount = 3;
+            tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Percent, 31.37255F));
+            tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Percent, 68.62745F));
+            tableLayoutPanel5.RowStyles.Add(new RowStyle(SizeType.Absolute, 55F));
+            tableLayoutPanel5.Size = new Size(288, 158);
+            tableLayoutPanel5.TabIndex = 2;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Dock = DockStyle.Fill;
+            label2.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point);
+            label2.Location = new Point(3, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(72, 32);
+            label2.TabIndex = 0;
+            label2.Text = "Name";
+            // 
+            // textBox1
+            // 
+            textBox1.Dock = DockStyle.Fill;
+            textBox1.Location = new Point(81, 3);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(204, 23);
+            textBox1.TabIndex = 1;
             // 
             // StartPage
             // 
@@ -129,6 +207,10 @@
             tableLayoutPanel2.ResumeLayout(false);
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel1.PerformLayout();
+            tableLayoutPanel3.ResumeLayout(false);
+            tableLayoutPanel4.ResumeLayout(false);
+            tableLayoutPanel5.ResumeLayout(false);
+            tableLayoutPanel5.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -140,10 +222,12 @@
         private ListView listView1;
         private ColumnHeader ID;
         private ColumnHeader oName;
+        private TableLayoutPanel tableLayoutPanel3;
+        private TableLayoutPanel tableLayoutPanel4;
         private Button button1;
-
-
-
+        private TableLayoutPanel tableLayoutPanel5;
+        private Label label2;
+        private TextBox textBox1;
     }
 
 }

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TicketVenueDesktop.BusinessLogic;
+using TicketVenueDesktop.GUI;
 using TicketVenueSystem.Business;
 using TicketVenueSystem.Model;
 
@@ -22,8 +23,6 @@ namespace TicketVenueDesktop
             _oLogic = new OrganizerLogic();
             populateList();
             InitializeComponent();
-            
-            
         }
 
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
@@ -46,6 +45,14 @@ namespace TicketVenueDesktop
 
         }
 
+        private void listView1_Click(object sender, EventArgs e)
+        {
+            String selectedItem = listView1.SelectedItems[0].Text;
+            EventCreate ec = new EventCreate(selectedItem);
+            ec.Show();
+            Visible = false;
+        }
+
         private async void button1_Click(object sender, EventArgs e)
         {
 
@@ -61,7 +68,13 @@ namespace TicketVenueDesktop
                 lvitem = new ListViewItem($"{eo.organizerId}");
                 lvitem.SubItems.Add($"{eo.firstName} {eo.lastName}");
                 listView1.Items.Add(lvitem);
+
             }
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            Console.WriteLine("Searched");
         }
     }
 }

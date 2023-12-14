@@ -25,5 +25,16 @@ namespace TicketVenueRestful.Controllers
 
             return foundReturn;
         }
+
+        [HttpGet]
+        public ActionResult<EventOrganizer> EventOrganizers(String id)
+        {
+            EventOrganizerLogic eLogic = new EventOrganizerLogic(_configuration);
+            ActionResult<EventOrganizer> foundReturn;
+            EventOrganizer eOrg = eLogic.getEventOrganizerById(id);
+            foundReturn = Ok(eOrg);
+
+            return foundReturn;
+        }
     }
 }

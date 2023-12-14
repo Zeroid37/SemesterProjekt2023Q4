@@ -29,5 +29,13 @@ namespace TicketVenueSystem.Business
             return eList;
         }
 
+        public EventOrganizer getEventOrganizerById(String id)
+        {
+            UserDAO udb = new UserDB(Configuration);
+            EventOrganizer eOrg = udb.getEventOrganizerByID(id);
+
+            return eOrg;
+        }
+
     }
 }

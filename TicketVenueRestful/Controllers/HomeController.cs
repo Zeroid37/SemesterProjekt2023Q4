@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using TicketVenueRestful.Models;
 using TicketVenueSystem.Business;
+using TicketVenueSystem.DB;
 using TicketVenueSystem.Model;
 
 namespace TicketVenueRestful.Controllers
@@ -29,15 +30,8 @@ namespace TicketVenueRestful.Controllers
 
         public String Test()
         {
-            EventOrganizerLogic eLogic = new EventOrganizerLogic(_configuration);
-            List<EventOrganizer> eList = eLogic.getAllEventOrganizers();
-
-            foreach(EventOrganizer e in eList)
-            {
-                Console.WriteLine(e.organizerId + " " + e.firstName);
-            }
-
-            return "Nice";
+            TicketDAO tdb = new TicketDB(_configuration);
+            return tdb.getTicketCount().ToString();
         }
 
 
