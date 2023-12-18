@@ -12,11 +12,9 @@ namespace TicketVenueSystem.Business
     public class TicketLogic
     {
         private IConfiguration Configuration;
-        private String? connectionString;
 
         public TicketLogic(IConfiguration configuration) {
             Configuration = configuration;
-            connectionString = Configuration.GetConnectionString("DefaultConnection");
         }
 
         public int getTicketCount()

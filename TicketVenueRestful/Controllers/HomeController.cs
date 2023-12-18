@@ -28,12 +28,6 @@ namespace TicketVenueRestful.Controllers
             return View();
         }
 
-        public String Test()
-        {
-            TicketDAO tdb = new TicketDB(_configuration);
-            return tdb.getTicketCount().ToString();
-        }
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

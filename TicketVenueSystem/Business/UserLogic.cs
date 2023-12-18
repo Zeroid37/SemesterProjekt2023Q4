@@ -34,5 +34,15 @@ namespace TicketVenueSystem.Business
 
             udb.setAspNetIdByEmail(email, userId);
         }
+
+
+        public User getUserByEmail(String email)
+        {
+            UserDAO udb = new UserDB(Configuration);
+            User user = udb.getUserByEmail(email);
+
+            return user;
+
+        }
     }
 }

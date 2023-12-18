@@ -1,64 +1,96 @@
+using Microsoft.Extensions.Configuration;
 using TicketVenueSystem.Business;
 using TicketVenueSystem.Model;
+using Xunit.Abstractions;
 
 namespace UnitTests
 {
     public class TicketLogicTests
     {
-        [Fact]
-        public void TestEventDates()
+        private readonly ITestOutputHelper _extraOutput;
+        private readonly IConfiguration inConfig;
+
+        private TicketLogic _ticketLogic;
+        private VenueEventLogic _venueEventLogic;
+        private UserLogic _userLogic;
+
+        public TicketLogicTests(ITestOutputHelper Output)
         {
-            //TicketLogic tl = new TicketLogic();
-            //double price = 199.95;
-            //string eventName = "Koncert";
-            //DateTime startDate = new DateTime(2024, 10, 5);
-            //DateTime endDate = startDate.AddDays(2);
-            //Hall hallone = null;
-            //VenueEvent venueEvent = new VenueEvent(price, eventName, startDate, endDate, hallone);
-            //Seat seat = null;
-            //User user = null;
-
-            ////Test1 Dates
-            //DateTime unacceptableDateStart = new DateTime(2024, 10, 4);
-            //DateTime unacceptableDateEnd = new DateTime(2024, 10, 6);
-
-            ////Test2 Dates
-            //DateTime acceptableDateStart = new DateTime(2024, 10, 5);
-            //DateTime acceptableDateEnd = new DateTime(2024, 10, 5);
-
-            //Boolean test1 = tl.createTicket(seat, "1", unacceptableDateStart, unacceptableDateEnd, user, venueEvent); //Expected Flase
-            //Boolean test2 = tl.createTicket(seat, "2", acceptableDateStart, acceptableDateEnd, user, venueEvent); //Expected True
-
-            //Assert.False(test1);
-            //Assert.True(test2);
+            _extraOutput = Output;
+            inConfig = TestConfigHelper.GetIConfigurationRoot();
+            _ticketLogic = new TicketLogic(inConfig);
+            _venueEventLogic = new VenueEventLogic(inConfig);
+            _userLogic = new UserLogic(inConfig);
         }
+
         [Fact]
-        public void TestSeatOverlap()
+        public void TestValidateTicketVALID()
         {
-            //TicketLogic tl = new TicketLogic();
-            //double price = 199.95;
-            //string eventName = "Koncert";
-            //DateTime startDate = new DateTime(2024, 10, 5);
-            //DateTime endDate = startDate.AddDays(2);
-            //Hall hallone = null;
-            //VenueEvent venueEvent = new VenueEvent(price, eventName, startDate, endDate, hallone);
-            //Seat seat = null;
-            //User user = null;
+            Ticket ticket = new Ticket();
+            //Vi henter en eksisterende venue event fra databasen som indeholder
+            //de nødvændige objekter til testen.
+            VenueEvent venueEvent = _venueEventLogic.getVenueEventById(1);
 
-            ////Test1 Dates
-            //DateTime unacceptableDateStart = new DateTime(2024, 10, 5);
-            //DateTime unacceptableDateEnd = new DateTime(2024, 10, 6);
+            String ticket_ID = "5000";
+            //Der er på nuværende tidspunkt ingen bookings på dette seat, dermed må det være gyldigt
+            Seat seat = venueEvent.hall.seats[3];
+            //Vi henter datoerne fra eventet så vi er sikre på at vores test datoer
+            //Overholder event datoerne.
+            DateTime startDate = venueEvent.startDate;
+            DateTime endDate = startDate.AddDays(1);
 
-            ////Test2 Dates
-            //DateTime acceptableDateStart = new DateTime(2024, 10, 5);
-            //DateTime acceptableDateEnd = new DateTime(2024, 10, 5);
+            //Her henter vi en bruger som vi ved findes i systemet allerede
+            User user = _userLogic.getUserByEmail("Kasper@mail");
 
-            //Boolean test1 = tl.createTicket(seat, "3", unacceptableDateStart, unacceptableDateEnd, user, venueEvent); //Expected Flase
-            //Boolean test2 = tl.createTicket(seat, "4", acceptableDateStart, acceptableDateEnd, user, venueEvent); //Expected True
+            //Ticket bliver fyldt med overstående data
+            ticket.ticket_ID = ticket_ID;
+            ticket.seat = seat;
+            ticket.startDate = startDate;
+            ticket.endDate = endDate;
+            ticket.user = user;
+            ticket.venueEvent = venueEvent;
 
+            List<Ticket> allTickets = _ticketLogic.getAllTicketsBySeatNo(seat.seatNumber);
 
-            //Assert.False(test1);
-            //Assert.True(test2);
+            Boolean ticketValidation = _ticketLogic.validateTicket(allTickets, ticket);
+            Assert.True(ticketValidation);
+            _extraOutput.WriteLine(ticketValidation.ToString());
+        }
+
+        [Fact]
+        public void TestValidateTicketINVALID()
+        {
+            Ticket ticket = new Ticket();
+            //Vi henter en eksisterende venue event fra databasen som indeholder
+            //de nødvændige objekter til testen.
+            VenueEvent venueEvent = _venueEventLogic.getVenueEventById(1);
+
+            String ticket_ID = "5000";
+            //Der er på nuværende tidspunkt en booking på dette seat
+            //hvis tidspunkt bliver ramt af det nye ticket
+            Seat seat = venueEvent.hall.seats[0];
+            //Vi henter datoerne fra eventet så vi er sikre på at vores test datoer
+            //Overholder event datoerne.
+            DateTime startDate = venueEvent.startDate;
+            DateTime endDate = startDate.AddDays(1);
+
+            //Her henter vi en bruger som vi ved findes i systemet allerede
+            User user = _userLogic.getUserByEmail("Kasper@mail");
+
+            //Ticket bliver fyldt med overstående data
+            ticket.ticket_ID = ticket_ID;
+            ticket.seat = seat;
+            ticket.startDate = startDate;
+            ticket.endDate = endDate;
+            ticket.user = user;
+            ticket.venueEvent = venueEvent;
+
+            List<Ticket> allTickets = _ticketLogic.getAllTicketsBySeatNo(seat.seatNumber);
+
+            Boolean ticketValidation = _ticketLogic.validateTicket(allTickets, ticket);
+            Assert.False(ticketValidation);
+            _extraOutput.WriteLine(ticketValidation.ToString());
+
         }
     }
 }

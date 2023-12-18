@@ -12,11 +12,9 @@ namespace TicketVenueSystem.Business
     public class VenueEventLogic
     {
         private IConfiguration Configuration;
-        private String? connectionString;
 
         public VenueEventLogic(IConfiguration configuration) {
             Configuration = configuration;
-            connectionString = Configuration.GetConnectionString("DefaultConnection");
         }
 
         public VenueEvent getVenueEventById(int id) {
