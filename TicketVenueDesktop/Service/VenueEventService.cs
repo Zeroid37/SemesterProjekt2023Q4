@@ -38,9 +38,6 @@ namespace TicketVenueDesktop.Service
 
                     String myContent = await content.ReadAsStringAsync();
 
-                    await Console.Out.WriteLineAsync(myContent);
-
-
                     var response = await _connection.ServicePost(content);
                     bool wasResponse = (response != null);
                     if (wasResponse && response.IsSuccessStatusCode)

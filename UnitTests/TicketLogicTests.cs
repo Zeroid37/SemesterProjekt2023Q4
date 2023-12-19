@@ -54,7 +54,7 @@ namespace UnitTests
 
             Boolean ticketValidation = _ticketLogic.validateTicket(allTickets, ticket);
             Assert.True(ticketValidation);
-            _extraOutput.WriteLine(ticketValidation.ToString());
+            _extraOutput.WriteLine(ticketValidation.ToString() + "For Valid test");
         }
 
         [Fact]
@@ -89,7 +89,7 @@ namespace UnitTests
 
             Boolean ticketValidation = _ticketLogic.validateTicket(allTickets, ticket);
             Assert.False(ticketValidation);
-            _extraOutput.WriteLine(ticketValidation.ToString());
+            _extraOutput.WriteLine(ticketValidation.ToString() + "For Invalid test");
 
         }
     }

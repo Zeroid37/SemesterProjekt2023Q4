@@ -50,7 +50,7 @@ namespace TicketVenueDesktop.GUI
 
         }
 
-        private async void button1_Click(object sender, EventArgs e)
+        private async void button_createEvent(object sender, EventArgs e)
         {
             //DELETE THIS IN FINAL PRODUCT
             Random rnd = new Random();
