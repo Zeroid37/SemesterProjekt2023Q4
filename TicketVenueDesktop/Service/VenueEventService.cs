@@ -20,8 +20,11 @@ namespace TicketVenueDesktop.Service
         {
             _connection = new ServiceConnection(_baseUrl);
         }
-
-
+        /// <summary>
+        /// Method to create an event and sends it to API Endpoint
+        /// </summary>
+        /// <param name="venueEvent"></param>
+        /// <returns>Boolean true or false</returns>
         public async Task<Boolean> createVenueEvent(VenueEvent venueEvent)
         {
             Boolean ok = false;

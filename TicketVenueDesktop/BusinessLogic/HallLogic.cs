@@ -16,7 +16,11 @@ namespace TicketVenueDesktop.BusinessLogic
         {
             _hallService = new HallService();
         }
-
+        /// <summary>
+        /// Get halls by hall number
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Hall object</returns>
         public async Task<Hall> getHallByHallNo(String id)
         {
             Hall hall;

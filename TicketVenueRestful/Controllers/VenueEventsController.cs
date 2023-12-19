@@ -27,6 +27,11 @@ namespace TicketVenueSystemAPI.Controllers
             return View(venues);
         }
 
+        /// <summary>
+        /// Create a venueevent from a deserialized VenueEvent object
+        /// </summary>
+        /// <param name="venueEvent"></param>
+        /// <returns>Actionresult</returns>
         [HttpPost]
         public ActionResult createVenueEvent([FromBody]VenueEvent venueEvent)
         {
@@ -57,6 +62,14 @@ namespace TicketVenueSystemAPI.Controllers
             return View(ve);
         }
 
+        /// <summary>
+        /// Method for booking a ticket
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="seat"></param>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <returns>Actionresult</returns>
         [Authorize]
         [HttpPost]
         public ActionResult BookTicket(int id, [FromForm] String seat, [FromForm] DateTime startDate, [FromForm] DateTime endDate) 
@@ -70,11 +83,10 @@ namespace TicketVenueSystemAPI.Controllers
             {
                 int ticketCount = ticketLogic.getTicketCount();
                 ticketLogic.addTicketToDb(ticket, ticketCount);
-                Console.WriteLine("Controller True");
             }
             else
             {
-                Console.WriteLine("Controller False");
+                
             }
             return RedirectToAction("Index");
         }

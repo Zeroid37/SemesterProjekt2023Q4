@@ -19,9 +19,12 @@ namespace TicketVenueSystem.DB
             Configuration = configuration;
             connectionString = Configuration.GetConnectionString("DefaultConnection");
         }
-
+        /// <summary>
+        /// Get a hall from the database by it's hallNumber
+        /// </summary>
+        /// <param name="hallNo"></param>
+        /// <returns>Hall</returns>
         public Hall getHallFromHallNo(string hallNo) {
-            Console.WriteLine(hallNo);
             SqlDataReader reader = null;
             Hall hall = new Hall();
             SeatDB seatdb = new SeatDB(Configuration);
@@ -39,33 +42,6 @@ namespace TicketVenueSystem.DB
                     hall.seats = seatdb.getAllSeatsFromHallNo(hallNo);
                 }
                 return hall;
-                }
-            }
-        
-        public List<Hall> getAllHallsFromHallNo(string hallNo) //TODO Update
-        {
-            DBConnect DBC = DBConnect.getInstance();
-            SqlConnection con = DBC.getConnection();
-
-            List<Hall> halls = new List<Hall>();
-            SqlDataReader reader = null;
-            string hallNumber = "";
-            Hall hall = new Hall();
-            using (con)
-            {
-                using (SqlCommand cmd = con.CreateCommand())
-                {
-                    cmd.CommandText = $"SELECT seatNumber, isInOrder from Seat where hallNumber_FK={hallNo}";
-                    reader = cmd.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        hallNumber = reader.GetString(reader.GetOrdinal("hallNumber"));
-
-                        hall.hallNumber = hallNumber;
-                        halls.Add(hall);
-                    }
-                    return halls;
-                }
             }
         }
     }

@@ -20,7 +20,11 @@ namespace TicketVenueSystem.Business
             connectionString = Configuration.GetConnectionString("DefaultConnection");
         }
 
-
+        /// <summary>
+        /// Method to get a hall from it's hallnumber
+        /// </summary>
+        /// <param name="hallNo"></param>
+        /// <returns>Hall object</returns>
         public Hall getHallFromHallNo(String hallNo)
         {
             HallDAO hdb = new HallDB(Configuration);

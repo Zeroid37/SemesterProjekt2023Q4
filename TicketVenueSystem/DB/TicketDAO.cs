@@ -13,7 +13,6 @@ namespace TicketVenueSystem.DB
         public int getTicketCount();
         public Boolean addTicketToDB(Ticket ticket, int ticketCount);
         public Boolean removeTicketFromDB(Ticket ticket);
-        public Ticket getTicketByUserID(string userID);
         public List<Ticket> getAllTicketsBySeatNo(String seatNo);
     }
 }

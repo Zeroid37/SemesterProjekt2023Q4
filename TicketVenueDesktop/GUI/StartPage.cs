@@ -74,7 +74,7 @@ namespace TicketVenueDesktop
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            Console.WriteLine("Searched");
+            
         }
     }
 }

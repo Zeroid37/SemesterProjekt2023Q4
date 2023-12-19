@@ -22,6 +22,11 @@ namespace TicketVenueDesktop.Service
             _connection = new ServiceConnection(_baseUrl);
         }
 
+        /// <summary>
+        /// Get an event organizer by their OrganizerID
+        /// </summary>
+        /// <param name="orgId"></param>
+        /// <returns>EventOrganizer Object</returns>
         public async Task<EventOrganizer> getEventOrganizerByID(string orgId)
         {
             _connection.useUrl = _connection.baseUrl;
@@ -48,6 +53,10 @@ namespace TicketVenueDesktop.Service
             return eOrg;
         }
 
+        /// <summary>
+        /// Get a list of all event organizers currently in the database.
+        /// </summary>
+        /// <returns>List of EventOrganizer objects</returns>
         public async Task<List<EventOrganizer>> getEventOrganizers()
         {
             _connection.useUrl = _connection.baseUrl;

@@ -22,6 +22,11 @@ namespace TicketVenueSystem.DB
             connectionString = Configuration.GetConnectionString("DefaultConnection");
         }
 
+        /// <summary>
+        /// Add a user to the database
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>Boolean true or false</returns>
         public Boolean addUserToDB(User user) {
 
             int insertedRows = 0;
@@ -52,7 +57,11 @@ namespace TicketVenueSystem.DB
             }
             return (insertedRows > 0);
         }
-
+        /// <summary>
+        /// Add an event organizer to the database
+        /// </summary>
+        /// <param name="eventOrganizer"></param>
+        /// <returns>Boolean</returns>
         public Boolean addEventOrganizerToDB(EventOrganizer eventOrganizer) {
 
             int insertedRows = 0;
@@ -82,6 +91,13 @@ namespace TicketVenueSystem.DB
             return (insertedRows > 0);
         }
 
+        /// <summary>
+        /// Adds a person to the database
+        /// </summary>
+        /// <param name="person"></param>
+        /// <param name="con"></param>
+        /// <param name="transaction"></param>
+        /// <returns>Boolean</returns>
         private Boolean addPersonToDB(Person person, SqlConnection con, SqlTransaction transaction) {
             int insertedRows = 0;
             string addPersonToDBQuery = "insert into Person(firstName, lastName, addressId_FK, phone, dateOfBirth, email, isAdmin, type, aspNetUsersId_FK)" +
@@ -110,6 +126,13 @@ namespace TicketVenueSystem.DB
             return (insertedRows > 0);
         }
 
+        /// <summary>
+        /// Add an address to the database
+        /// </summary>
+        /// <param name="address"></param>
+        /// <param name="con"></param>
+        /// <param name="transaction"></param>
+        /// <returns>int id of the added address</returns>
         public int addAddressToDB(Address address, SqlConnection con, SqlTransaction transaction) {
 
             int addressId = -1;
@@ -140,6 +163,11 @@ namespace TicketVenueSystem.DB
             return addressId;
         }
 
+        /// <summary>
+        /// Get a user by their email
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns>User</returns>
         public User getUserByEmail(string email)
         {
             String getUserByEmailQuery = "SELECT userID from Users where email_FK = @EMAIL_FK";
@@ -179,6 +207,11 @@ namespace TicketVenueSystem.DB
             return user;
         }
 
+        /// <summary>
+        /// Get an event organizer by their id
+        /// </summary>
+        /// <param name="ID"></param>
+        /// <returns>EventOrganizer</returns>
         public EventOrganizer getEventOrganizerByID(string ID)
         {
             String getUserByEmailQuery = "SELECT email_fk from EventOrganizer where organizerId = @ORGANIZER_ID";
@@ -221,7 +254,11 @@ namespace TicketVenueSystem.DB
             }
             return evOrg;
         }
-
+        /// <summary>
+        /// Get user by their Id
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <returns>User</returns>
         public User getUserByUserID(string userID)
         {
             String getUserByEmailQuery = "SELECT userId, email_FK from Users where userId = @USERID";
@@ -264,7 +301,11 @@ namespace TicketVenueSystem.DB
         }
 
 
-
+        /// <summary>
+        /// Get an address by it's id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Address</returns>
         private Address getAddressByAdressId(int id)
         {
             Address a = new Address();
@@ -296,6 +337,12 @@ namespace TicketVenueSystem.DB
             return a;
         }
 
+        /// <summary>
+        /// Set the AspNet ID to match the ID in User/EventOrganizer by their email
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="aspNetId"></param>
+        /// <returns>Boolean</returns>
         public bool setAspNetIdByEmail(string email, string aspNetId)
         {
             string setAspNetIdQuery = "UPDATE Person set aspNetUsersId_FK = @ASPNETID where email = @EMAIL";
@@ -314,6 +361,10 @@ namespace TicketVenueSystem.DB
             return affectedRows > 0;
         }
 
+        /// <summary>
+        /// Get a list of all eventorganizers
+        /// </summary>
+        /// <returns>List of EventOrganizer</returns>
         public List<EventOrganizer> getAllEventOrganizers()
         {
             string getAllEventOrganizersQuery = "SELECT organizerId, email_FK from eventOrganizer";

@@ -11,7 +11,6 @@ namespace UnitTests
     {
         public static IConfigurationRoot GetIConfigurationRoot()
         {
-            Console.WriteLine("Run");
             return new ConfigurationBuilder().AddJsonFile("appsettings.json").AddEnvironmentVariables().Build();
         }
     }

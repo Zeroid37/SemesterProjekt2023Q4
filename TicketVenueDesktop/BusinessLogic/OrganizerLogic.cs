@@ -17,6 +17,10 @@ namespace TicketVenueDesktop.BusinessLogic
             _organizerService = new OrganizerService();
         }
 
+        /// <summary>
+        /// Get all event organizers
+        /// </summary>
+        /// <returns>List of Event Organizers</returns>
         public async Task<List<EventOrganizer>> getAllEventOrganizers()
         {
             List<EventOrganizer> eList;
@@ -33,7 +37,11 @@ namespace TicketVenueDesktop.BusinessLogic
             return eList;
         }
 
-
+        /// <summary>
+        /// Get event organizer by their OrganizerId
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Event Organizer Object</returns>
         public async Task<EventOrganizer> getEventOrganizerById(String id)
         {
             EventOrganizer eOrg;

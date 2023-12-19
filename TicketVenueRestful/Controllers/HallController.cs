@@ -13,10 +13,14 @@ namespace TicketVenueRestful.Controllers
             _configuration = configuration;
         }
 
+        /// <summary>
+        /// Get halls by their hallNumber
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>ActionResult of Hall</returns>
         [HttpGet]
         public ActionResult<Hall> Halls(String id)
         {
-            Console.WriteLine(id);
             HallLogic hLogic = new HallLogic(_configuration);
             ActionResult<Hall> foundReturn;
 

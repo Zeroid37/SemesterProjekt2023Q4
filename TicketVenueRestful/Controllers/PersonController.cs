@@ -13,7 +13,10 @@ namespace TicketVenueRestful.Controllers
             _configuration = configuration;
         }
 
-
+        /// <summary>
+        /// Get a list of all eventOrganizers
+        /// </summary>
+        /// <returns>List of EventOrganizer Objects</returns>
         [HttpGet]
         public ActionResult<List<EventOrganizer>> EventOrganizers()
         {
@@ -26,10 +29,14 @@ namespace TicketVenueRestful.Controllers
             return foundReturn;
         }
 
+        /// <summary>
+        /// Get a single event organizer by their organizerId
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>EventOrganizer object</returns>
         [HttpGet]
         public ActionResult<EventOrganizer> EventOrganizer(String id)
         {
-            Console.WriteLine(id);
             EventOrganizerLogic eLogic = new EventOrganizerLogic(_configuration);
             ActionResult<EventOrganizer> foundReturn;
             EventOrganizer eOrg = eLogic.getEventOrganizerById(id);

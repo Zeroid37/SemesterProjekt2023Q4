@@ -20,7 +20,10 @@ namespace TicketVenueSystem.Business
             connectionString = Configuration.GetConnectionString("DefaultConnection");
         }
 
-
+        /// <summary>
+        /// Method to get all event organizers
+        /// </summary>
+        /// <returns>List of EventOrganizer objects</returns>
         public List<EventOrganizer> getAllEventOrganizers()
         {
             UserDAO udb = new UserDB(Configuration);
@@ -29,6 +32,11 @@ namespace TicketVenueSystem.Business
             return eList;
         }
 
+        /// <summary>
+        /// Method to get a single event organizer from their OrganizerId
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>EventOrganizer object</returns>
         public EventOrganizer getEventOrganizerById(String id)
         {
             UserDAO udb = new UserDB(Configuration);

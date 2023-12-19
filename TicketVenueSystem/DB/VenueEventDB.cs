@@ -15,6 +15,11 @@ namespace TicketVenueSystem.DB {
             connectionString = Configuration.GetConnectionString("DefaultConnection");
         }
 
+        /// <summary>
+        /// Add a venue event to the database
+        /// </summary>
+        /// <param name="venueEvent"></param>
+        /// <returns>Boolean</returns>
         public Boolean addVenueEventToDB(VenueEvent venueEvent) {
 
             int insertedRowsNo = 0;
@@ -38,6 +43,11 @@ namespace TicketVenueSystem.DB {
             return (insertedRowsNo > 0);
         }
 
+        /// <summary>
+        /// Get a venue event by it's ID
+        /// </summary>
+        /// <param name="venueEvent_ID"></param>
+        /// <returns>Venue Event</returns>
         public VenueEvent getVenueEventById(int venueEvent_ID) {
 
             VenueEvent ve = new VenueEvent();
@@ -66,7 +76,10 @@ namespace TicketVenueSystem.DB {
             }
             return ve;
         }
-
+        /// <summary>
+        /// Get all venue events in database
+        /// </summary>
+        /// <returns>List of venue events</returns>
         public List<VenueEvent> getAllVenueEvents()
         {
             List<VenueEvent> venueEventsList = new List<VenueEvent>();

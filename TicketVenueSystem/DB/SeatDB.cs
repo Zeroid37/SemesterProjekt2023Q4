@@ -18,8 +18,12 @@ namespace TicketVenueSystem.DB
             Configuration = configuration;
             connectionString = Configuration.GetConnectionString("DefaultConnection");
         }
-
-        public Seat getSeatFromSeatNo(string seatNo) { //TODO Update
+        /// <summary>
+        /// Get a seat from it's seatnumber
+        /// </summary>
+        /// <param name="seatNo"></param>
+        /// <returns>Seat</returns>
+        public Seat getSeatFromSeatNo(string seatNo) {
 
             String getHallByHallNoQuery = "SELECT seatNumber, isInOrder from seat where seatNumber = @SEATNO";
 
@@ -38,7 +42,11 @@ namespace TicketVenueSystem.DB
                 return seat;
             }
         }
-
+        /// <summary>
+        /// Gets all seats associated with a hall by the hallNumber
+        /// </summary>
+        /// <param name="hallNo"></param>
+        /// <returns>List of seats</returns>
         public List<Seat> getAllSeatsFromHallNo(string hallNo) {
             List<Seat> seats = new List<Seat>();
 

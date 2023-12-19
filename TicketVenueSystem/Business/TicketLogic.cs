@@ -17,6 +17,10 @@ namespace TicketVenueSystem.Business
             Configuration = configuration;
         }
 
+        /// <summary>
+        /// Get the current number of tickets in the database
+        /// </summary>
+        /// <returns>Int of amount of tickets</returns>
         public int getTicketCount()
         {
             int count = -1;
@@ -26,6 +30,15 @@ namespace TicketVenueSystem.Business
             return count;
         }
 
+        /// <summary>
+        /// Method to create a Ticket object from given data
+        /// </summary>
+        /// <param name="venueEventId"></param>
+        /// <param name="seatNo"></param>
+        /// <param name="userEmail"></param>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <returns>Ticket object</returns>
         public Ticket createTicketFromForm(int venueEventId, string seatNo, string userEmail, DateTime startDate, DateTime endDate) {
             //DELETE THIS
             Random rnd = new Random();
@@ -47,19 +60,26 @@ namespace TicketVenueSystem.Business
             ticket.seat = s;
             ticket.ticket_ID = num.ToString();
 
-            //DELETE THIS
-            Console.WriteLine(endDate);
-            Console.WriteLine(startDate);
-
             return ticket;
         }
 
+        /// <summary>
+        /// Method to get all tickets that has a specific seat attached to them, by the seat number
+        /// </summary>
+        /// <param name="seatNo"></param>
+        /// <returns>List of tickets</returns>
         public List<Ticket> getAllTicketsBySeatNo(string seatNo) {
             TicketDB tdb = new TicketDB(Configuration);
             List<Ticket> tickets = tdb.getAllTicketsBySeatNo(seatNo);
             return tickets;
         }
 
+        /// <summary>
+        /// Method to add a ticket to attempt to add a ticket to the database
+        /// </summary>
+        /// <param name="ticket"></param>
+        /// <param name="ticketCount"></param>
+        /// <returns>Boolean true or false</returns>
         public bool addTicketToDb(Ticket ticket, int ticketCount) {
             TicketDAO tdb = new TicketDB(Configuration);
             bool res = tdb.addTicketToDB(ticket, ticketCount);
@@ -110,7 +130,6 @@ namespace TicketVenueSystem.Business
             {
                 res = false;
             }
-            Console.WriteLine("Check Event date overlap res: " + res);
             return res;
         }
 
@@ -132,7 +151,6 @@ namespace TicketVenueSystem.Business
             {
                 res = false;
             }
-            Console.WriteLine("Check seat date overlap res: " + res);
             return res;
         }
     }

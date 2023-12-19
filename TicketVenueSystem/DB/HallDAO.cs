@@ -11,6 +11,5 @@ namespace TicketVenueSystem.DB
     internal interface HallDAO
     {
         public Hall getHallFromHallNo(string hallNo);
-        public List<Hall> getAllHallsFromHallNo(string hallNo);
     }
 }

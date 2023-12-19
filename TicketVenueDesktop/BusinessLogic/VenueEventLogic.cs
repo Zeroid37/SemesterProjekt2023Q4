@@ -18,6 +18,11 @@ namespace TicketVenueDesktop.BusinessLogic
             _venueEventService = new VenueEventService();
         }
 
+        /// <summary>
+        /// Create venue event, calls our service layer.
+        /// </summary>
+        /// <param name="venueEvent"></param>
+        /// <returns>Boolean true or false</returns>
         public async Task<Boolean> createVenueEvent(VenueEvent venueEvent)
         {
             Boolean ok = false;

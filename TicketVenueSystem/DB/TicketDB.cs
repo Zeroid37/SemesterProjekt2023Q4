@@ -20,7 +20,12 @@ namespace TicketVenueSystem.DB
             Configuration = configuration;
             connectionString = Configuration.GetConnectionString("DefaultConnection");
         }
-
+        /// <summary>
+        /// Adds a ticket to the database
+        /// </summary>
+        /// <param name="ticket"></param>
+        /// <param name="ticketCount"></param>
+        /// <returns>Boolean true or false</returns>
         public bool addTicketToDB(Ticket ticket, int ticketCount)
         {
             int insertedRowsNo = 0;
@@ -32,7 +37,6 @@ namespace TicketVenueSystem.DB
             {
                 Thread.Sleep(10000);
                 con.Open();
-                Console.WriteLine(ticketCount);
                 cmd.Parameters.AddWithValue("TICKETCOUNT", ticketCount);
                 cmd.Parameters.AddWithValue("TICKET_ID", ticket.ticket_ID);
                 cmd.Parameters.AddWithValue("STARTDATE", ticket.startDate);
@@ -42,11 +46,15 @@ namespace TicketVenueSystem.DB
                 cmd.Parameters.AddWithValue("SEATNUMBER_FK", ticket.seat.seatNumber);
 
                 insertedRowsNo = cmd.ExecuteNonQuery();
-                Console.WriteLine(insertedRowsNo > 0);
             }
             return (insertedRowsNo > 0);
         }
 
+        /// <summary>
+        /// Get all tickets by the seat associated with the tickets through it's seat number
+        /// </summary>
+        /// <param name="seatNo"></param>
+        /// <returns>List of Tickets</returns>
         public List<Ticket> getAllTicketsBySeatNo(string seatNo)
         {
             List<Ticket> ticketList = new List<Ticket>();
@@ -85,42 +93,10 @@ namespace TicketVenueSystem.DB
             return ticketList;
         }
 
-        public Ticket getTicketByUserID(string userID)
-        {
-            DBConnect DBC = DBConnect.getInstance();
-            SqlConnection con = DBC.getConnection();
-
-            Ticket ticket = new Ticket();
-
-            SqlDataReader reader = null;
-            using (con)
-            {
-                using (SqlCommand cmd = con.CreateCommand())
-                {
-                    cmd.CommandText = $"SELECT ticket_ID, startDate, endDate, venueEventID_FK, userID_FK, seatNumber_FK from Ticket where userID_FK = {userID}";
-                    reader = cmd.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        //UserDB udb = new UserDB();
-                        //VenueEventDB vedb = new VenueEventDB();
-                        //SeatDB sdb = new SeatDB();
-
-                        ticket.ticket_ID = reader.GetString(reader.GetOrdinal("ticket_ID"));
-                        ticket.startDate = reader.GetDateTime(reader.GetOrdinal("startDate"));
-                        ticket.endDate = reader.GetDateTime(reader.GetOrdinal("endDate"));
-
-                        //ticket.seat = sdb.getSeatFromSeatNo(reader.GetString(reader.GetOrdinal("seatNumber_FK")));
-                        //ticket.venueEvent = vedb.getVenueEventById(reader.GetString(reader.GetOrdinal("venueEventID_FK")));
-                        
-                        //ticket.user = udb.getUserByUserID(reader.GetString(reader.GetOrdinal("userID_FK")));                       
-                            
- 
-                    }
-                }
-            }
-            return ticket;
-        }
-
+        /// <summary>
+        /// Get number of tickets in the database
+        /// </summary>
+        /// <returns>int</returns>
         public int getTicketCount()
         {
             int ticketCount = -1;
@@ -139,6 +115,7 @@ namespace TicketVenueSystem.DB
             }
         }
 
+        
         public bool removeTicketFromDB(Ticket ticket)
         {
             throw new NotImplementedException();
