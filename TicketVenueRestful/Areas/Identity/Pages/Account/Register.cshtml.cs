@@ -170,7 +170,7 @@ namespace TicketVenueRestful.Areas.Identity.Pages.Account
                     newUser.address = address;
                     newUser.dateOfBirth = DateTime.Parse(Input.DateOfBirth);
 
-                    //DELETE THIS
+                    //DELETE THIS IN FINAL PRODUCT
                     Random rnd = new Random();
                     int num = rnd.Next();
                     newUser.userId = num.ToString();

@@ -40,7 +40,7 @@ namespace TicketVenueSystem.Business
         /// <param name="endDate"></param>
         /// <returns>Ticket object</returns>
         public Ticket createTicketFromForm(int venueEventId, string seatNo, string userEmail, DateTime startDate, DateTime endDate) {
-            //DELETE THIS
+            //DELETE THIS IN FINAL PRODUCT
             Random rnd = new Random();
             int num = rnd.Next();
 
